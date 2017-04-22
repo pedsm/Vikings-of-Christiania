@@ -26,7 +26,10 @@
             form.onsubmit = function () {
                 socket.emit('join_game', {name: "hello"});
                 console.log("Joining game!");
-
+                
+                // Remove form
+                var container = document.getElementsByClassName("container")[0];
+                container.remove();
                 loop();
                 return false;
             }
