@@ -2,7 +2,7 @@
 
 import * as express from 'express';
 import * as http from 'http';
-import * as io from 'socket.io';
+import * as socketio from 'socket.io';
 import {Player, Projectile} from './player';
 
 var verbose = false;
@@ -10,6 +10,9 @@ var gameport = 4242;
 var app = express();
 var server = http.createServer(app);
 let players: Array<Player> = [];
+let projectiles: Array<Projectile> = [];
+let updateInterval: number = 1000/50; // Number of ms between updates.
+var io = socketio();
 
 console.log("Vikings of Christiana running..");
 
@@ -27,7 +30,7 @@ app.use(express.static('comp'))
 app.use(express.static('static'))
 
 // Handle a socket connection
-io().on('connection', function(socket) {
+io.on('connection', function(socket) {
     // Join the main server;
     players.push()
     socket.join("default_room");
@@ -37,3 +40,12 @@ io().on('connection', function(socket) {
         players.push(player);
     })
 })
+
+// Send the gamestate to everyone
+setInterval(function() {
+    io.emit('default_room',
+    {
+        'players': players,
+        'projectiles': projectiles
+    });
+}, updateInterval);
