@@ -16,7 +16,7 @@ class Boat {
 		this.name = name
 		this.x  = x
 		this.y  = y
-		this.size = 100
+		this.size = 128
 		this.direction = 0
 		this.speed = 0
 		this.velX = 0
@@ -40,7 +40,7 @@ class Boat {
 		textFont(playerFont)
 		textAlign(CENTER)
 		text(this.name, 0, - 70)
-#		rotate(this.direction+radians(180))
+		rotate(this.direction+radians(180))
 		image(assets[2],0,0)
 		pop()
 
@@ -48,14 +48,16 @@ class Boat {
 
 		this.x += this.velX
 		this.y += this.velY
-		console.log(this.x)
-		if (this.x > 30*128 || this.x < -30*128 || this.y > 30*128 || this.y < -30*128)
-		{
-			console.log("border")
-			this.x = oldX
-			this.y = oldY
-		}
-#	}
+
+		if (this.x > 3925)
+			this.x = 3925
+		if (this.x < -3650)
+			this.x = -3650
+		if (this.y > 3890)
+			this.y = 3890
+		if (this.y < -3700)
+			this.y = -3700
+	}
 }
 
 class Projectile {
@@ -87,6 +89,7 @@ function setup(){
 	assets.push(loadImage('assets/ship5.png'))
 	assets.push(loadImage('assets/ship6.png'))
 	assets.push(loadImage('assets/cannonBall.png'))
+	assets.push(loadImage('assets/ground.png'))
 	boats.push(new Boat("Pedro",100,100))
 	boats.push(new Boat("Tal",0,0))
 
@@ -95,12 +98,19 @@ function setup(){
 function draw(){
 	//translate(width/2-boats[0].x,height/2-boats[0].y)
 	translate(boats[0].x,boats[0].y)
+	for(var i = -35; i < 35; i++){
+		for(var j = -35; j < 35; j++){
+			imageMode(CENTER)
+			image(assets[8],128*j+620, 128*i+400)
+		}
+	}
 	for(var i = -30; i < 30; i++){
 		for(var j = -30; j < 30; j++){
 			imageMode(CENTER)
-			image(assets[0],128*j+620, 128*i+400)
+			image(assets[0],128*j+570, 128*i+350)
 		}
 	}
+
 
 	//Print all boats
 	boats.map((boat)=>{
