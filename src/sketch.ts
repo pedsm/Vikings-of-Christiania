@@ -47,7 +47,7 @@ var bullet = [];
 
 function setup(){
 	noLoop();
-	createCanvas(window.innerWidth-20,window.innerHeight-20)
+	createCanvas(window.innerWidth,window.innerHeight)
 	assets.push(loadImage('assets/water.png'))
 	assets.push(loadImage('assets/ship1.png'))
 	assets.push(loadImage('assets/ship2.png'))
