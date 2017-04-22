@@ -71,6 +71,5 @@ setInterval(function() {
             }
         })
     }
-    players.forEach(detectCollision(player))
 
 }, updateInterval);
