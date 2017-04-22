@@ -14,15 +14,17 @@ class Boat {
 }
 
 var boats = [];
-boats[0] = new Boat("Pedro")
 
 function setup(){
 	createCanvas(800,600,WEBGL)
 	background(155)
-	// boats.push(new Boat("Pedro"))
-	box(100,100,100)
+	boats.push(new Boat("Pedro"))
 }
 function draw(){
 	rotateX(0.785398)
 	rotateY(0.785398)
+	//Print all boats
+	boats.map((boat)=>{
+		boat.draw();
+	})
 }
