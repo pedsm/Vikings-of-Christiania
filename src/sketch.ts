@@ -34,19 +34,34 @@ class Boat {
 		push()
 		translate(width/2-this.x,height/2-this.y)
 		imageMode(CENTER)
-		rotate(this.direction+radians(180))
+		textSize(32)
+		textFont(playerFont)
+		textAlign(CENTER)
+		text(this.name, 0, - 70)
+#		rotate(this.direction+radians(180))
 		image(assets[2],0,0)
 		pop()
-	}
+#	}
+}
+
+class Projectile {
+	x:number
+	y:number
+	speedX:number
+	speedY:number
+	owner:string
 }
 
 var boats = [];
 var assets = [];
-var bullet = [];
+var projectile = [];
+var playerFont;
 
 
 function setup(){
-	createCanvas(window.innerWidth-20,window.innerHeight-20)
+	noLoop();
+	playerFont = loadFont('assets/ArchivoBlack-Regular.ttf')
+	createCanvas(window.innerWidth,window.innerHeight)
 	assets.push(loadImage('assets/water.png'))
 	assets.push(loadImage('assets/ship1.png'))
 	assets.push(loadImage('assets/ship2.png'))
@@ -54,11 +69,10 @@ function setup(){
 	assets.push(loadImage('assets/ship4.png'))
 	assets.push(loadImage('assets/ship5.png'))
 	assets.push(loadImage('assets/ship6.png'))
+	assets.push(loadImage('assets/cannonBall.png'))
 	boats.push(new Boat("Pedro",100,100))
 	boats.push(new Boat("Tal",0,0))
-	boats.push(new Boat("Tal",100,0))
 
-	noLoop();
 }
 
 function draw(){

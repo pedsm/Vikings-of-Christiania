@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <body style="margin:0px;">
-        <div class="container">
+        <div id="container" class="container">
             <img class="logo" src="logo.png" />
             <form id="login-form">
                 <input type="text" placeholder="Enter Name" name="name">
@@ -28,8 +28,7 @@
                 console.log("Joining game!");
                 
                 // Remove form
-                var container = document.getElementsByClassName("container")[0];
-                container.remove();
+                document.getElementsByClassName("container")[0].remove();
                 loop();
                 return false;
             }
