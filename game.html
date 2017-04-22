@@ -27,7 +27,7 @@
                 Player.name = playername;
                 socket.emit('join_game', {name: playername});
                 console.log("Joining game!");
-                
+
                 // Remove form
                 document.getElementsByClassName("container")[0].remove();
                 loop();
