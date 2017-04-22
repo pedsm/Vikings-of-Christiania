@@ -24,6 +24,7 @@
             var form = document.getElementById("login-form");
             form.onsubmit = function () {
                 var playername = document.getElementById("nameInput").value;
+                Player.name = playername;
                 socket.emit('join_game', {name: playername});
                 console.log("Joining game!");
 
@@ -35,9 +36,14 @@
 
             console.log("connected to ws")
             socket.on('gamestate', (remoteGamestate) => {
+                remoteGamestate.players = remoteGamestate.players.filter((p) => p.id != socket.id);
                 gameState = remoteGamestate;
-                gameState.players = gameState.players.filter((p) => p.id != socket.id);
+
+                setInterval(() => {
+                    socket.emit('update_gamestate', Player);
+                }, 1000/30)
             })
+
         </script>
 
     </body>

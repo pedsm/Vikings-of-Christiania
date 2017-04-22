@@ -41,6 +41,17 @@ io.on('connection', function(socket) {
         players.push(player);
     })
 
+    socket.on('update_gamestate', (remotePlayer) => {
+        var p = players.filter((p) => p.id == socket.id)[0];
+
+        if (!remotePlayer || !p) {
+            return;
+        }
+        p.x = remotePlayer.x;
+        p.y = remotePlayer.y;
+        p.direction = remotePlayer.direction;
+    })
+
     socket.on('disconnect', function() {
         players = players.filter((p) => p.id != socket.id);
     })
@@ -60,6 +71,7 @@ setInterval(function() {
         'projectiles': projectiles
     }
     );
+
     //collision with projectiles
     // function detectCollision(player){
     //     projectiles.map((bullet)=>{
