@@ -31,6 +31,8 @@ class Boat {
 		this.speed = 0
 	}
 	draw(){
+		var oldX = this.x
+		var oldY = this.y
 		push()
 		translate(width/2-this.x,height/2-this.y)
 		imageMode(CENTER)
@@ -43,9 +45,16 @@ class Boat {
 		pop()
 
 		this.updateSpeed()
+
 		this.x += this.velX
 		this.y += this.velY
-		if (this.x > 30)
+		console.log(this.x)
+		if (this.x > 30*128 || this.x < -30*128 || this.y > 30*128 || this.y < -30*128)
+		{
+			console.log("border")
+			this.x = oldX
+			this.y = oldY
+		}
 #	}
 }
 
@@ -86,11 +95,13 @@ function setup(){
 function draw(){
 	//translate(width/2-boats[0].x,height/2-boats[0].y)
 	translate(boats[0].x,boats[0].y)
-	for(var i = mapsize*-1; i < mapsize; i++){
-		for(var j = mapsize*-1; j < mapsize*-1; j++){
-			image(assets[0],128*j, 128*i)
+	for(var i = -30; i < 30; i++){
+		for(var j = -30; j < 30; j++){
+			imageMode(CENTER)
+			image(assets[0],128*j+620, 128*i+400)
 		}
 	}
+
 	//Print all boats
 	boats.map((boat)=>{
 		boat.draw();
