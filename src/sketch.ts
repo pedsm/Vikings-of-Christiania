@@ -5,6 +5,7 @@ class Boat {
 	speedY:Number;
 	cosntructor(input:string){
 		this.name = input
+
 	}
 }
 
