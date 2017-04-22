@@ -12,7 +12,7 @@ var server = http.createServer(app);
 let players: Array<Player> = [];
 let projectiles: Array<Projectile> = [];
 let updateInterval: number = 1000/50; // Number of ms between updates.
-var io = socketio();
+var io = socketio(server);
 
 console.log("Vikings of Christiana running..");
 
@@ -35,7 +35,8 @@ io.on('connection', function(socket) {
     players.push()
     socket.join("default_room")
 
-    socket.on('join_game', function(id, message) {
+    socket.on('join_game', function(message) {
+        console.log(`:: Player ${message.name} has joined the game`)
         var player: Player = new Player(socket.id, message.name);
         players.push(player);
     })
