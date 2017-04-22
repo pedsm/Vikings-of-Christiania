@@ -34,7 +34,7 @@ class Boat {
 		push()
 		translate(width/2-this.x,height/2-this.y)
 		imageMode(CENTER)
-		textSize(32)
+		textSize(20)
 		textFont(playerFont)
 		textAlign(CENTER)
 		text(this.name, 0, - 70)
@@ -45,6 +45,7 @@ class Boat {
 		this.updateSpeed()
 		this.x += this.velX
 		this.y += this.velY
+		if (this.x > 30)
 #	}
 }
 
@@ -62,6 +63,7 @@ var bullet = [];
 var gameState = []
 var projectile = [];
 var playerFont;
+var mapsize = 30;
 
 
 function setup(){
@@ -84,8 +86,8 @@ function setup(){
 function draw(){
 	//translate(width/2-boats[0].x,height/2-boats[0].y)
 	translate(boats[0].x,boats[0].y)
-	for(var i = -10; i < 10; i++){
-		for(var j = -10; j < 10; j++){
+	for(var i = mapsize*-1; i < mapsize; i++){
+		for(var j = mapsize*-1; j < mapsize*-1; j++){
 			image(assets[0],128*j, 128*i)
 		}
 	}
