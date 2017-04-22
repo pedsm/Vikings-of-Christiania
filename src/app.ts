@@ -41,6 +41,17 @@ io.on('connection', function(socket) {
         players.push(player);
     })
 
+    socket.on('update_gamestate', (remotePlayer) => {
+
+        if (!remotePlayer) {
+            return;
+        }
+        var p = players.filter((p) => p.id == socket.id)[0];
+        p.x = remotePlayer.x;
+        p.y = remotePlayer.y;
+        p.direction = remotePlayer.direction;
+    })
+
     socket.on('disconnect', function() {
         players = players.filter((p) => p.id != socket.id);
     })

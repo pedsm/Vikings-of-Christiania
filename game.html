@@ -38,7 +38,12 @@
             socket.on('gamestate', (remoteGamestate) => {
                 remoteGamestate.players = remoteGamestate.players.filter((p) => p.id != socket.id);
                 gameState = remoteGamestate;
+
+                setInterval(() => {
+                    socket.emit('update_gamestate', Player);
+                }, 1000/30)
             })
+
         </script>
 
     </body>
