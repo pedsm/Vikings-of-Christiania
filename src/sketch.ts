@@ -27,7 +27,12 @@ function setup(){
 	background(155)
 	boats.push(new Boat("Pedro",100,100))
 	boats.push(new Boat("Tal",0,0))
+	assets.push(loadImage('assets/ship1.png'))
 	assets.push(loadImage('assets/ship2.png'))
+	assets.push(loadImage('assets/ship3.png'))
+	assets.push(loadImage('assets/ship4.png'))
+	assets.push(loadImage('assets/ship5.png'))
+	assets.push(loadImage('assets/ship6.png'))
 }
 function draw(){
 	//Camera
