@@ -14,6 +14,7 @@ class Boat {
 		this.size = 100
 	}
 	draw(){
+		imageMode(CENTER)
 		image(assets[0],this.x,this.y)
 	}
 }
@@ -34,11 +35,18 @@ function setup(){
 	assets.push(loadImage('assets/ship4.png'))
 	assets.push(loadImage('assets/ship5.png'))
 	assets.push(loadImage('assets/ship6.png'))
+	boats.push(new Boat("Pedro",100,100))
+	boats.push(new Boat("Tal",0,0))
+	boats.push(new Boat("Tal",100,0))
 }
 function draw(){
-	//Camera
+	background(155)
+	push()
+	translate(width/2-boats[0].x,height/2-boats[0].y)
 	//Print all boats
 	boats.map((boat)=>{
 		boat.draw();
 	})
+	pop()
+	boats[0].y +=1
 }
