@@ -1,5 +1,9 @@
 *.sw?
 src/*.js
 /node_modules/
+npm-debug.log
 comp/
 npm-debug.log
+static/style.css
+static/style.css.map
+static/.sass-cache/

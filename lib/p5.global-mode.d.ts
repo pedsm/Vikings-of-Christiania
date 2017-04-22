@@ -253,6 +253,8 @@ declare function triangle(x1: number, y1: number, x2: number, y2: number, x3: nu
  */
 declare function noSmooth(): p5;
 
+declare function rectMode(x:any): p5;
+
 // TODO: Fix rectMode() errors in src/core/attributes.js:
 //
 //   param "mode" has invalid type: Number/Constant
@@ -486,7 +488,7 @@ declare function getURLParams(): any;
  * Creates a canvas element in the document, and sets the dimensions of it
  * in pixels.
  */
-declare function createCanvas(w: number, h: number, renderer: any): any;
+declare function createCanvas(w: number, h: number, renderer?: any): any;
 declare function rotateX(w: number): any;
 declare function rotateY(w: number): any;
 
