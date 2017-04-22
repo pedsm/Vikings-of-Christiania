@@ -26,7 +26,8 @@
             form.onsubmit = function () {
                 socket.emit('join_game', {name: "hello"});
                 console.log("Joining game!");
-                started = true;
+
+                loop();
                 return false;
             }
         </script>

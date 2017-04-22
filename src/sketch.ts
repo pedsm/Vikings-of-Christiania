@@ -62,9 +62,6 @@ function setup(){
 }
 
 function draw(){
-	if (!started) {
-		return;
-	}
 	//translate(width/2-boats[0].x,height/2-boats[0].y)
 	translate(boats[0].x,boats[0].y)
 	for(var i = -10; i < 10; i++){
