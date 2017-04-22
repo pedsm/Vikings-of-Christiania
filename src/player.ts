@@ -1,4 +1,6 @@
-class Player {
+
+
+export class Player {
     name: string;
     x: float;
     y: float;
@@ -9,7 +11,7 @@ class Player {
     }
 }
 
-class Projectile {
+export class Projectile {
     source: Player
     x: float;
     y: float;
