@@ -12,7 +12,7 @@
         <div id="container" class="container">
             <img class="logo" src="logo.png" />
             <form id="login-form">
-                <input type="text" placeholder="Enter Name" name="name">
+                <input id="nameInput" type="text" placeholder="Enter Name" name="name">
                 <div>
                     <button type="submit">Play!</button>
                 </div>
@@ -23,7 +23,8 @@
             var socket = io();
             var form = document.getElementById("login-form");
             form.onsubmit = function () {
-                socket.emit('join_game', {name: "hello"});
+                var playername = document.getElementById("nameInput").value;
+                socket.emit('join_game', {name: playername});
                 console.log("Joining game!");
                 
                 // Remove form
