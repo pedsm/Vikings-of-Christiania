@@ -20,11 +20,12 @@ class Boat {
 
 var boats = [];
 var assets = [];
+var bullet = [];
 
 
 function setup(){
 	createCanvas(800,600)
-	background(155)
+	background(0,0,150)
 	boats.push(new Boat("Pedro",100,100))
 	boats.push(new Boat("Tal",0,0))
 	assets.push(loadImage('assets/ship1.png'))
