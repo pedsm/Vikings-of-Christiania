@@ -31,9 +31,6 @@ class Boat {
 		this.speed = 0
 	}
 	draw(){
-		this.updateSpeed()
-		this.x += this.velX
-		this.y += this.velY
 		push()
 		translate(width/2-this.x,height/2-this.y)
 		imageMode(CENTER)
@@ -44,6 +41,10 @@ class Boat {
 #		rotate(this.direction+radians(180))
 		image(assets[2],0,0)
 		pop()
+
+		this.updateSpeed()
+		this.x += this.velX
+		this.y += this.velY
 #	}
 }
 
