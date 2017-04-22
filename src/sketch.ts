@@ -73,6 +73,7 @@ var gameState = []
 var projectile = [];
 var playerFont;
 var mapsize = 30;
+var Player = new Boat("",(Math.random()*6000)-3000,(Math.random()*6000)-3000);
 
 
 function setup(){
@@ -87,14 +88,15 @@ function setup(){
 	assets.push(loadImage('assets/ship5.png'))
 	assets.push(loadImage('assets/ship6.png'))
 	assets.push(loadImage('assets/cannonBall.png'))
-	boats.push(new Boat("Pedro",100,100))
-	boats.push(new Boat("Tal",0,0))
+
+	// boats.push(new Boat("Pedro",100,100))
+	// boats.push(new Boat("Tal",0,0))
 
 }
 
 function draw(){
 	//translate(width/2-boats[0].x,height/2-boats[0].y)
-	translate(boats[0].x,boats[0].y)
+	translate(Player.x,Player.y)
 	for(var i = -30; i < 30; i++){
 		for(var j = -30; j < 30; j++){
 			imageMode(CENTER)
@@ -103,10 +105,11 @@ function draw(){
 	}
 
 	//Print all boats
+	Player.draw()
 	boats.map((boat)=>{
 		boat.draw();
 	})
-	if(keyIsDown(LEFT_ARROW) || keyIsDown(65)) { boats[0].direction -= 0.04 }
-	if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ boats[0].direction += 0.04 }
-	if(keyIsDown(UP_ARROW) || keyIsDown(87))   { boats[0].speed = 5}
+	if(keyIsDown(LEFT_ARROW) || keyIsDown(65)) { Player.direction -= 0.04 }
+	if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ Player.direction += 0.04 }
+	if(keyIsDown(UP_ARROW) || keyIsDown(87))   { Player.speed = 5}
  }
