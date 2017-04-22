@@ -26,7 +26,6 @@ var bullet = [];
 
 function setup(){
 	createCanvas(800,600)
-	background(0,0,150)
 	boats.push(new Boat("Pedro",100,100))
 	boats.push(new Boat("Tal",0,0))
 	assets.push(loadImage('assets/ship1.png'))
@@ -40,7 +39,7 @@ function setup(){
 	boats.push(new Boat("Tal",100,0))
 }
 function draw(){
-	background(155)
+	background(0,0,150)
 	push()
 	translate(width/2-boats[0].x,height/2-boats[0].y)
 	//Print all boats
