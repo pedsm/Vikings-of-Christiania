@@ -23,10 +23,8 @@ function setup(){
 function draw(){
 	rotateX(0.785398)
 	rotateY(0.785398)
-	// boats[0].draw()
-	box(100,100,100)
-	// boats.map((boat)=>{
-	// 	console.log(boat)
-	// 	boat.draw();
-	// })
+	//Print all boats
+	boats.map((boat)=>{
+		boat.draw();
+	})
 }
