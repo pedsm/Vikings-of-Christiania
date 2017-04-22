@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha",
-    "dev": "tsc --watch src/*.ts",
-		"start": "node src/app.js"
+    "dev": "tsc --watch src/*.ts --outDir comp",
+    "start": "node comp/app.js"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,9 @@
     "socketio": "^1.0.0"
   },
   "devDependencies": {
-    "@types/node": "^7.0.13",
+    "@types/debug": "0.0.29",
+    "@types/express": "^4.0.33",
+    "@types/node": "^6.0.46",
     "typescript": "^2.2.2"
   }
 }
