@@ -43,6 +43,7 @@ class Boat {
 var boats = [];
 var assets = [];
 var bullet = [];
+var gameState = []
 
 
 function setup(){
@@ -73,7 +74,7 @@ function draw(){
 	boats.map((boat)=>{
 		boat.draw();
 	})
-	if(keyIsDown(LEFT_ARROW)) { boats[0].direction -= 0.04 }
-	if(keyIsDown(RIGHT_ARROW)){ boats[0].direction += 0.04 }
-	if(keyIsDown(UP_ARROW))   { boats[0].speed = 5}
+	if(keyIsDown(LEFT_ARROW) || keyIsDown(65)) { boats[0].direction -= 0.04 }
+	if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ boats[0].direction += 0.04 }
+	if(keyIsDown(UP_ARROW) || keyIsDown(87))   { boats[0].speed = 5}
  }
