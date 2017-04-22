@@ -46,6 +46,7 @@ var bullet = [];
 
 
 function setup(){
+	noLoop();
 	createCanvas(window.innerWidth-20,window.innerHeight-20)
 	assets.push(loadImage('assets/water.png'))
 	assets.push(loadImage('assets/ship1.png'))
@@ -58,7 +59,6 @@ function setup(){
 	boats.push(new Boat("Tal",0,0))
 	boats.push(new Boat("Tal",100,0))
 
-	noLoop();
 }
 
 function draw(){
