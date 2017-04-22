@@ -60,8 +60,8 @@ var playerFont;
 
 function setup(){
 	noLoop();
-	createCanvas(window.innerWidth-20,window.innerHeight-20)
 	playerFont = loadFont('assets/ArchivoBlack-Regular.ttf')
+	createCanvas(window.innerWidth,window.innerHeight)
 	assets.push(loadImage('assets/water.png'))
 	assets.push(loadImage('assets/ship1.png'))
 	assets.push(loadImage('assets/ship2.png'))
@@ -76,9 +76,6 @@ function setup(){
 }
 
 function draw(){
-	if (!started) {
-		return;
-	}
 	//translate(width/2-boats[0].x,height/2-boats[0].y)
 	translate(boats[0].x,boats[0].y)
 	for(var i = -10; i < 10; i++){
