@@ -4,6 +4,4 @@ src/*.js
 npm-debug.log
 comp/
 npm-debug.log
-static/style.css
-static/style.css.map
 static/.sass-cache/
