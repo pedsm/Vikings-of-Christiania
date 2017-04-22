@@ -250,7 +250,7 @@ declare class p5 {
    * Draws all geometry with jagged (aliased) edges.
    */
   noSmooth(): p5
-
+  rectMode(): p5
   // TODO: Fix rectMode() errors in src/core/attributes.js:
   //
   //   param "mode" has invalid type: Number/Constant
