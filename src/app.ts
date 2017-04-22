@@ -33,11 +33,15 @@ app.use(express.static('static'))
 io.on('connection', function(socket) {
     // Join the main server;
     players.push()
-    socket.join("default_room");
+    socket.join("default_room")
 
     socket.on('join_game', function(id, message) {
         var player: Player = new Player(socket.id, message.name);
         players.push(player);
+    })
+
+    socket.on('disconnect', function() {
+        players = players.filter((p) => p.id != socket.id);
     })
 })
 
