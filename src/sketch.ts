@@ -15,7 +15,7 @@ class Boat {
 	}
 	draw(){
 		imageMode(CENTER)
-		image(assets[0],this.x,this.y)
+		image(assets[2],this.x,this.y)
 	}
 }
 
@@ -26,6 +26,7 @@ var bullet = [];
 
 function setup(){
 	createCanvas(window.innerWidth-20,window.innerHeight-20)
+	assets.push(loadImage('assets/water.png'))
 	assets.push(loadImage('assets/ship1.png'))
 	assets.push(loadImage('assets/ship2.png'))
 	assets.push(loadImage('assets/ship3.png'))
@@ -37,7 +38,13 @@ function setup(){
 	boats.push(new Boat("Tal",100,0))
 }
 function draw(){
+	push()
 	translate(width/2-boats[0].x,height/2-boats[0].y)
+	for(var i = -10; i < 10; i++){
+		for(var j = -10; j < 10; j++){
+			image(assets[0],128*j, 128*i)
+		}
+	}
 	//Print all boats
 	background(0,0,150)
 	boats.map((boat)=>{
