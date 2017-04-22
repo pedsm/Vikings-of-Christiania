@@ -324,14 +324,14 @@ declare function preload(): void;
 /**
  * The setup() function is called once when the program starts.
  */
-declare function setup(): void;
+// declare function setup(): void;
 
 /**
  * Called directly after setup(), the draw() function continuously executes
  * the lines of code contained inside its block until the program is stopped
  * or noLoop() is called.
  */
-declare function draw(): void;
+// declare function draw(): void;
 
 /**
  * Removes the entire p5 sketch.
@@ -486,7 +486,9 @@ declare function getURLParams(): any;
  * Creates a canvas element in the document, and sets the dimensions of it
  * in pixels.
  */
-declare function createCanvas(w: number, h: number, renderer?: string): any;
+declare function createCanvas(w: number, h: number, renderer: any): any;
+declare function rotateX(w: number): any;
+declare function rotateY(w: number): any;
 
 /**
  * Resizes the canvas to given width and height.
@@ -1666,7 +1668,7 @@ declare function removeElements(): void;
 declare function getAudioContext(): any;
 
 /**
- * Returns a number representing the master amplitude (volume) for sound 
+ * Returns a number representing the master amplitude (volume) for sound
  * in this sketch.
  */
 declare function getMasterVolume(): number;
@@ -1697,4 +1699,3 @@ declare function midiToFreq(midiNote: number): number;
 // declare function soundFormats(formats: string|Strings): void;
 
 // TODO: Property "{String} failedPath path to the file that failed to load", defined in lib/addons/p5.sound.js, is not a valid JS symbol name
-
