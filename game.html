@@ -18,10 +18,9 @@
                 </div>
             </form>
         </div>
-
+        <script src="sketch.js"/></script>
         <script>
             var socket = io();
-            var started = false;
             var form = document.getElementById("login-form");
             form.onsubmit = function () {
                 socket.emit('join_game', {name: "hello"});
@@ -32,8 +31,13 @@
                 loop();
                 return false;
             }
+
+            console.log("connected to ws")
+            socket.on('gamestate', (remoteGamestate) => {
+                gameState = remoteGamestate;
+                gameState.players = gameState.players.filter((p) => p.id != socket.id);
+            })
         </script>
-        <script src="sketch.js"/></script>
 
     </body>
 
