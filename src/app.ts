@@ -53,4 +53,7 @@ setInterval(function() {
         'players': players,
         'projectiles': projectiles
     });
+    //collision with projectiles
+    
+
 }, updateInterval);
