@@ -1,5 +1,10 @@
+/* logo */
+img.logo {
+    width: 100%;
+}
+
 /* Full-width inputs */
-input[type=text], input[type=password] {
+input[type=text] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -27,6 +32,10 @@ button:hover {
 /* Add padding to containers */
 .container {
     padding: 16px;
+    margin-top: 20vh;
+    margin-left: 15%;
+    width: 20%;
+    min-width: 20em;
 }
 
 /* The "Forgot password" text */
