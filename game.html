@@ -35,6 +35,7 @@
             console.log("connected to ws")
             socket.on('gamestate', (remoteGamestate) => {
                 gameState = remoteGamestate;
+                gameState.players = gameState.players.filter((p) => p.id != socket.id);
             })
         </script>
 
