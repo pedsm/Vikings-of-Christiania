@@ -7,11 +7,13 @@ class Boat {
 	speedX:number;
 	speedY:number;
 	size:number;
+	direction:number;
 	constructor(name:string,x:number,y:number){
 		this.name = name
 		this.x  = x
 		this.y  = y
 		this.size = 100
+		this.direction = PI/2
 	}
 	draw(){
 		imageMode(CENTER)
@@ -46,12 +48,11 @@ function draw(){
 		}
 	}
 	//Print all boats
-	background(0,0,150)
 	boats.map((boat)=>{
 		boat.draw();
 	})
 	if(keyIsDown(LEFT_ARROW)) { boats[0].x-- }
-	if(keyIsDown(RIGHT_ARROW)) { boats[0].x++ }
-	if(keyIsDown(UP_ARROW)) { boats[0].y-- }
+	if(keyIsDown(RIGHT_ARROW)){ boats[0].x++ }
+	if(keyIsDown(UP_ARROW))   { boats[0].y-- }
 	if(keyIsDown(DOWN_ARROW)) { boats[0].y++ }
  }
