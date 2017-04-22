@@ -11,6 +11,7 @@ class Boat {
 	speed:number;
 	velX:number;
 	velY:number;
+	lastFrame:number;
 	constructor(name:string,x:number,y:number){
 		this.name = name
 		this.x  = x
@@ -20,11 +21,13 @@ class Boat {
 		this.speed = 0
 		this.velX = 0
 		this.velY = 0
+		this.lastFrame = Date.now()
 	}
 	updateSpeed(){
-		this.velY = this.speed * Math.cos(this.direction)
-		this.velX = this.speed * Math.sin(this.direction)*-1
-		console.log(this.velX)
+		var mov = Date.now() - this.lastFrame;
+		this.lastFrame = mov + this.lastFrame;
+		this.velY = mov/10*this.speed * Math.cos(this.direction)
+		this.velX = mov/10*this.speed * Math.sin(this.direction)*-1
 		this.speed = 0
 	}
 	draw(){
@@ -54,13 +57,10 @@ class Projectile {
 
 var boats = [];
 var assets = [];
-<<<<<<< HEAD
 var bullet = [];
 var gameState = []
-=======
 var projectile = [];
 var playerFont;
->>>>>>> 99cc5ae530b2f9388dd8aed8d65df810a6b93371
 
 
 function setup(){
