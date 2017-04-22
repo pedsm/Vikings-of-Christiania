@@ -1,4 +1,4 @@
 *.sw?
-*.js
+src/*.js
 /node_modules/
 comp/
