@@ -18,7 +18,7 @@ app.get('/', function(req, res) {
     res.sendFile('game.html', { root: __dirname + "/../"});
 });
 app.use(express.static('lib'))
-app.use(express.static('src'))
+app.use(express.static('comp'))
 app.use(express.static('static'))
 // app.get('/static/*', function(req, res, next) {
 //     var file = req.params[0];
