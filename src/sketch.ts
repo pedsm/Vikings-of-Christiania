@@ -14,6 +14,7 @@ class Boat {
 		this.size = 100
 	}
 	draw(){
+		rectMode(CENTER)
 		rect(this.x,this.y,this.size,this.size)
 	}
 }
@@ -28,6 +29,7 @@ function setup(){
 }
 function draw(){
 	//Camera
+	translate(width/2 + boats[0].x-boats[0].size,height/2 + boats[0].y - boats[0].size)
 	//Print all boats
 	boats.map((boat)=>{
 		boat.draw();

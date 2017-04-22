@@ -253,6 +253,8 @@ declare function triangle(x1: number, y1: number, x2: number, y2: number, x3: nu
  */
 declare function noSmooth(): p5;
 
+declare function rectMode(x:any): p5;
+
 // TODO: Fix rectMode() errors in src/core/attributes.js:
 //
 //   param "mode" has invalid type: Number/Constant
