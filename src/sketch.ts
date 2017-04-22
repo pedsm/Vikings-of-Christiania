@@ -112,7 +112,7 @@ function draw(){
 
 	//Print all boats
 	Player.draw()
-	gameState.players = []
+	boats = []
 	gameState.players.map((thing)=>{
 		boats.push(new Boat(thing.name,thing.x,thing.y))
 	})

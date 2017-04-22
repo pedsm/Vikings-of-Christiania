@@ -58,17 +58,18 @@ setInterval(function() {
     {
         'players': players,
         'projectiles': projectiles
-    });
-    //collision with projectiles
-    function detectCollision(player){
-        projectiles.map((bullet)=>{
-            if(bullet.x > player.x-64 && bullet.y < player.x+64 &&
-               bullet.y > player.y-64 && bullet.y < player.y+64)
-            {
-                player.kill;
-            }
-        })
     }
-    players.forEach(detectCollision)
+    );
+    //collision with projectiles
+    // function detectCollision(player){
+    //     projectiles.map((bullet)=>{
+    //         if(bullet.x > player.x-64 && bullet.y < player.x+64 &&
+    //            bullet.y > player.y-64 && bullet.y < player.y+64)
+    //         {
+    //             player.kill;
+    //         }
+    //     })
+    // }
+    // players.forEach(detectCollision)
 
 }, updateInterval);
