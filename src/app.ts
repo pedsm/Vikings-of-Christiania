@@ -46,6 +46,12 @@ io.on('connection', function(socket) {
     })
 })
 
+function kill(player){
+    console.log("You got fragged m8. \n Need more mountain dew and doritos in your diet.");
+    player.x = 0;
+    player.y = 0;
+}
+
 // Send the gamestate to everyone
 setInterval(function() {
     io.in('default_room').emit('gamestate',
@@ -54,6 +60,17 @@ setInterval(function() {
         'projectiles': projectiles
     });
     //collision with projectiles
-    
+    function detectCollision(player){
+        projectiles.map((bullet)=>{
+            if(bullet.x > player.x-64 && bullet.y < player.x+64 &&
+               bullet.y > player.y-64 && bullet.y < player.y+64)
+            {
+                player.kill;
+            }else{
+
+            }
+        })
+    }
+    players.forEach(detectCollision(player))
 
 }, updateInterval);
