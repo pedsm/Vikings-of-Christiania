@@ -14,17 +14,20 @@ class Boat {
 		this.size = 100
 	}
 	draw(){
-		rect(this.x,this.y,this.size,this.size)
+		image(assets[0],this.x,this.y)
 	}
 }
 
 var boats = [];
+var assets = [];
+
 
 function setup(){
 	createCanvas(800,600)
 	background(155)
 	boats.push(new Boat("Pedro",100,100))
 	boats.push(new Boat("Tal",0,0))
+	assets.push(loadImage('assets/ship2.png'))
 }
 function draw(){
 	//Camera
