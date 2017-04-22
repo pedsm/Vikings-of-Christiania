@@ -3,5 +3,5 @@ Vikings of Christiania
 
 ## Start compilation 
 ```bash
-	tsc --watch src/*.ts
+	npm run dev
 ```
