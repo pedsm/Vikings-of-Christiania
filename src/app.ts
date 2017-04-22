@@ -17,13 +17,8 @@ console.log(':: Listening on port ' + gameport);
 app.get('/', function(req, res) {
     res.sendFile('game.html', { root: __dirname + "/../"});
 });
+
+// Serve static files (according to pedro?)
 app.use(express.static('lib'))
 app.use(express.static('src'))
 app.use(express.static('static'))
-// app.get('/static/*', function(req, res, next) {
-//     var file = req.params[0];
-//
-//     if(verbose) console.log('\t :: Express :: file requested : ' + file);
-//
-//     res.sendFile(__dirname + '/static/' + file);
-// });
