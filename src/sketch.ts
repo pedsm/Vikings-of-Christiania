@@ -25,9 +25,7 @@ var bullet = [];
 
 
 function setup(){
-	createCanvas(800,600)
-	boats.push(new Boat("Pedro",100,100))
-	boats.push(new Boat("Tal",0,0))
+	createCanvas(window.innerWidth-20,window.innerHeight-20)
 	assets.push(loadImage('assets/ship1.png'))
 	assets.push(loadImage('assets/ship2.png'))
 	assets.push(loadImage('assets/ship3.png'))
@@ -39,13 +37,14 @@ function setup(){
 	boats.push(new Boat("Tal",100,0))
 }
 function draw(){
-	background(0,0,150)
-	push()
 	translate(width/2-boats[0].x,height/2-boats[0].y)
 	//Print all boats
+	background(0,0,150)
 	boats.map((boat)=>{
 		boat.draw();
 	})
-	pop()
-	boats[0].y +=1
-}
+	if(keyIsDown(LEFT_ARROW)) { boats[0].x-- }
+	if(keyIsDown(RIGHT_ARROW)) { boats[0].x++ }
+	if(keyIsDown(UP_ARROW)) { boats[0].y-- }
+	if(keyIsDown(DOWN_ARROW)) { boats[0].y++ }
+ }
