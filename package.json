@@ -23,5 +23,9 @@
     "express": "^4.15.2",
     "mocha": "^3.2.0",
     "socketio": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^7.0.13",
+    "typescript": "^2.2.2"
   }
 }
