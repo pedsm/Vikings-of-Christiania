@@ -42,11 +42,11 @@ io.on('connection', function(socket) {
     })
 
     socket.on('update_gamestate', (remotePlayer) => {
+        var p = players.filter((p) => p.id == socket.id)[0];
 
-        if (!remotePlayer) {
+        if (!remotePlayer || !p) {
             return;
         }
-        var p = players.filter((p) => p.id == socket.id)[0];
         p.x = remotePlayer.x;
         p.y = remotePlayer.y;
         p.direction = remotePlayer.direction;
