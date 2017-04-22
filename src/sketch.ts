@@ -115,7 +115,7 @@ function draw(){
 	boats = []
 	gameState.players.map((thing)=>{
 		var tmp = new Boat(thing.name,thing.x,thing.y)
-		tmp.dir  = thing.dir
+		tmp.direction  = thing.direction
 		tmp.name = thing.name
 		boats.push(tmp)
 	})
