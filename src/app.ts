@@ -66,11 +66,9 @@ setInterval(function() {
                bullet.y > player.y-64 && bullet.y < player.y+64)
             {
                 player.kill;
-            }else{
-
             }
         })
     }
-    players.forEach(detectCollision(player))
+    players.forEach(detectCollision)
 
 }, updateInterval);
