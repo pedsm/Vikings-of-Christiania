@@ -38,8 +38,16 @@ function setup(){
 	boats.push(new Boat("Pedro",100,100))
 	boats.push(new Boat("Tal",0,0))
 	boats.push(new Boat("Tal",100,0))
+
+	noLoop();
 }
+
 function draw(){
+
+	if (!started) {
+		return;
+	}
+
 	push()
 	translate(width/2-boats[0].x,height/2-boats[0].y)
 	for(var i = -10; i < 10; i++){
