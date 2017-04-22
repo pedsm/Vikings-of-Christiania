@@ -1,0 +1,27 @@
+{
+  "name": "vikings-of-christiania",
+  "version": "1.0.0",
+  "description": "Vikings",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pedsm/Vikings-of-Christiania.git"
+  },
+  "keywords": [
+    "IO"
+  ],
+  "author": "Team 40",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pedsm/Vikings-of-Christiania/issues"
+  },
+  "homepage": "https://github.com/pedsm/Vikings-of-Christiania#readme",
+  "dependencies": {
+    "express": "^4.15.2",
+    "mocha": "^3.2.0",
+    "socketio": "^1.0.0"
+  }
+}
