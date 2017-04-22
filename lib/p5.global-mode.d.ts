@@ -486,7 +486,7 @@ declare function getURLParams(): any;
  * Creates a canvas element in the document, and sets the dimensions of it
  * in pixels.
  */
-declare function createCanvas(w: number, h: number, renderer: any): any;
+declare function createCanvas(w: number, h: number, renderer?: any): any;
 declare function rotateX(w: number): any;
 declare function rotateY(w: number): any;
 

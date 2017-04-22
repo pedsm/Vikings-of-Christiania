@@ -1,5 +1,5 @@
-// import "../lib/p5.global-mode"
-///<reference path="../lib/p5.d.ts" />
+///<reference path="../lib/p5.global-mode.d.ts" />
+
 class Boat {
 	name:string;
 	x:number
@@ -11,19 +11,17 @@ class Boat {
 		this.name = name
 		this.x  = x
 		this.y  = y
+		this.size = 100
 	}
 	draw(){
-		push()
-		translate(this.x, this.y)
-		box(this.size,this.size,this.size)
-		pop()
+		rect(this.x,this.y,this.size,this.size)
 	}
 }
 
 var boats = [];
 
 function setup(){
-	createCanvas(800,600,WEBGL)
+	createCanvas(800,600)
 	background(155)
 	boats.push(new Boat("Pedro",100,100))
 	boats.push(new Boat("Tal",0,0))
