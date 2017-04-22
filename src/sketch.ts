@@ -48,7 +48,6 @@ class Boat {
 
 		this.x += this.velX
 		this.y += this.velY
-		console.log(this.x)
 		if (this.x > 30*128 || this.x < -30*128 || this.y > 30*128 || this.y < -30*128)
 		{
 			console.log("border")
@@ -69,7 +68,7 @@ class Projectile {
 var boats = [];
 var assets = [];
 var bullet = [];
-var gameState = []
+var gameState = {players:[],projectile:[]}
 var projectile = [];
 var playerFont;
 var mapsize = 30;
@@ -106,6 +105,10 @@ function draw(){
 
 	//Print all boats
 	Player.draw()
+	gameState.players = []
+	gameState.players.map((thing)=>{
+		boats.push(new Boat(thing.name,thing.x,thing.y))
+	})
 	boats.map((boat)=>{
 		boat.draw();
 	})
