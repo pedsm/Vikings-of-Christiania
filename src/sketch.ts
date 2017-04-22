@@ -18,16 +18,32 @@ class Boat {
 	draw(){
 		imageMode(CENTER)
 		image(assets[2],this.x,this.y)
+		textSize(32)
+		textFont(playerFont)
+		textAlign(CENTER)
+		//strokeWeight(10)
+		//fill(50,50,50)
+		text(this.name, this.x, this.y - 70)
 	}
+}
+
+class Projectile {
+	x:number
+	y:number
+	speedX:number
+	speedY:number
+	owner:string
 }
 
 var boats = [];
 var assets = [];
-var bullet = [];
+var projectile = [];
+var playerFont;
 
 
 function setup(){
 	createCanvas(window.innerWidth-20,window.innerHeight-20)
+	playerFont = loadFont('assets/ArchivoBlack-Regular.ttf')
 	assets.push(loadImage('assets/water.png'))
 	assets.push(loadImage('assets/ship1.png'))
 	assets.push(loadImage('assets/ship2.png'))
@@ -35,9 +51,10 @@ function setup(){
 	assets.push(loadImage('assets/ship4.png'))
 	assets.push(loadImage('assets/ship5.png'))
 	assets.push(loadImage('assets/ship6.png'))
+	assets.push(loadImage('assets/cannonBall.png'))
 	boats.push(new Boat("Pedro",100,100))
-	boats.push(new Boat("Tal",0,0))
-	boats.push(new Boat("Tal",100,0))
+	//boats.push(new Boat("Tal",0,0))
+	//boats.push(new Boat("Tal",100,0))
 }
 function draw(){
 	push()
