@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha",
-    "dev": "tsc --watch src/*.ts",
-    "start": "node src/app.js"
+    "dev": "tsc --watch src/*.ts --outDir comp",
+    "start": "node comp/app.js"
   },
   "repository": {
     "type": "git",

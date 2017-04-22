@@ -16,7 +16,7 @@ console.log(':: Listening on port ' + gameport);
 
 
 app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/game.html');
+    res.sendFile('game.html', { root: __dirname + "/../"});
 });
 app.get('/static/*', function(req, res, next) {
     var file = req.params[0];
@@ -25,3 +25,4 @@ app.get('/static/*', function(req, res, next) {
 
     res.sendFile(__dirname + '/static/' + file);
 });
+
