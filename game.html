@@ -56,12 +56,15 @@
 					cur = Date.now()
 
                     // Only update if player position changes
-                    if (last_y != Player.y || last_x != Player.x || last_direction != Player.direction || last_speed != Player.speed) {
-                        socket.emit('update_gamestate', Player);
+                    if (last_y != Player.y
+                    || last_x != Player.x
+                    || last_direction != Player.direction) {
+
                         last_y = Player.y;
                         last_x = Player.x;
                         last_direction = Player.direction;
-                        last_speed = Player.speed;
+
+                        socket.emit('update_gamestate', Player);
                     }
                 }, 1000/60)
 

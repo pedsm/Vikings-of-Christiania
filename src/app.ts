@@ -107,13 +107,18 @@ io.on('connection', function(socket) {
     // When a player sends their gamestate
     socket.on('update_gamestate', (remotePlayer) => {
         var p = getPlayerById(socket.id)
-        if (!p || !remotePlayer) { return; }
+        if (!p || !remotePlayer) {
+            console.log("Invalid player tried to update_gamestate")
+            return;
+        }
+
+        console.log(p);
 
         // Any of the attributes may be updated independently
-        p.x = remotePlayer.x || p.x;
-        p.y = remotePlayer.y || p.y;
-		p.speed = remotePlayer.speed || p.speed;
-        p.direction = remotePlayer.direction || p.direction;
+        p.x = remotePlayer.x;
+        p.y = remotePlayer.y;
+		p.speed = remotePlayer.speed;
+        p.direction = remotePlayer.direction;
 
         // Broadcast the players new details to the room
         io.in('default_room').emit('gamestate', {
