@@ -2,6 +2,7 @@
 export class Player {
     name: string;
     id: string;
+    hp: number;
     x: number;
     y: number;
 	speed: number;
@@ -15,6 +16,7 @@ export class Player {
         this.x = 20*Math.random() - 10;
         this.y = 20*Math.random() - 10;
         this.direction = 0;
+        this.hp = 100;
     }
 }
 

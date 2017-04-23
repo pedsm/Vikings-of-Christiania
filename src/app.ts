@@ -68,8 +68,8 @@ io.on('connection', function(socket) {
     })
 
     socket.on('fire', () => {
-        console.log("Player fired :)")
         var p = players.filter((pl) => pl.id == socket.id)[0];
+        console.log(`Player ${p.name} fired :)`)
         shootProjectile(p);
     });
 
@@ -128,7 +128,33 @@ setInterval(function() {
             if (Math.abs(player.x - proj.x) < 100
             &&  Math.abs(player.y - proj.y) < 100
             &&  player.id != proj.source) { // Check that it's not the player's own projectile
-                // Player and projectile in same area
+
+                // Remove projectile
+                // TODO broadcast in player death
+                projectiles = projectiles.filter((p)=>p!=proj);
+
+                // Player and projectile are in the same area so we'll subtract health.
+                player.hp -= consts.bulletDamage;
+                
+                if (player.hp <= 0) {
+                    io.in('default_room').emit('gamestate',
+                    {
+                        'type': 'player_killed',
+                        'data': {
+                            'player': player,
+                            'projectile': proj
+                        }
+                    });
+                }
+
+                else {
+                    console.log(`Player ${player.name} has been killed`);
+                    io.in('default_room').emit('gamestate', {
+                        type: 'player_update',
+                        data:  player
+                    });
+                }
+
                 console.log("Player has been hit");
             }
         });
