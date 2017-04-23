@@ -94,6 +94,7 @@
                         remoteGamestate.data.forEach((proj) => {
                             shootBullet(proj.x, proj.y, proj.direction);
                         })
+                        break;
                     default:
                         console.log(`Received unknown gamestate update type:`)
                         console.log(remoteGamestate)
