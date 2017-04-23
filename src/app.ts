@@ -3,7 +3,7 @@
 import * as express from 'express';
 import * as http from 'http';
 import * as socketio from 'socket.io';
-import {Player, Projectile} from './player';
+import {Player, Projectile, Spectator, User} from './player';
 import {consts} from './consts';
 
 var verbose = false;
@@ -11,6 +11,7 @@ var gameport = 4242;
 var app = express();
 var server = http.createServer(app);
 let players: Array<Player> = [];
+let spectators: Array<Spectator> = [];
 let projectiles: Array<Projectile> = [];
 let updateInterval: number = 1000/60; // Number of ms between updates.
 var io = socketio(server);
@@ -35,24 +36,35 @@ var getPlayerById = (id: string) => {
     return p.length > 0 ? p[0] : null;
 }
 
+var getSpectatorById = (id: string) => {
+    var s = spectators.filter((s) => s.id == id);
+    return s.length > 0 ? s[0] : null;
+}
+
+var getUserById = (id: string) => {
+    var p = getPlayerById(id);
+    var s = getSpectatorById(id);
+    return p || s;
+}
+
 // Wait for a websockets connection
 io.on('connection', function(socket) {
 
     // Send game constants to the user
     socket.emit('consts', consts)
 
-    // Broadcast the player's chat messages to the room
+    // Broadcast the player's chat messages to the room.
+    // All users can chat regardless of whether they play or not.
     socket.on('chat', function(message) {
-        var p = getPlayerById(socket.id);
+        var u:User = getUserById(socket.id) || {'id': socket.id, 'name': 'Anonymous'}
 
-        if (p) {
+        if (u) {
             io.in('default_room').emit('chat',
                 {
                     'type': message,
-                    'contents': `<b>${p.name}</b>: ${message}`
+                    'contents': `<b>${u.name}</b>: ${message}`
                 })
         }
-        // TODO else tell the spectator that they can't message
     });
 
     // Wait for the user to request to join a game
@@ -63,7 +75,15 @@ io.on('connection', function(socket) {
         console.log(`:: Player ${player_details.name} has joined the game`)
 
         // If the user is a normal player then add them to the game
-        if (!player_details.isSpectator) {
+        if (player_details.isSpectator) {
+            var spectator = new Spectator(socket.id, player_details.name);
+            spectators.push(spectator);
+
+            io.in('default_room').emit('chat',
+                { 'type': 'player_join',
+                'contents': `<span class="player_join"><b>${spectator.name}</b> has joined the game as a spectator</span>` }
+            );
+        } else {
             var player: Player = new Player(socket.id, player_details.name);
             players.push(player);
 

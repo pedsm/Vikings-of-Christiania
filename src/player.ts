@@ -1,5 +1,20 @@
 import {consts} from './consts';
 
+// A user is anyone connected to the game, either watching or playing.
+export interface User {
+    name: string;
+    id: string;
+}
+
+export class Spectator {
+    name: string;
+    id: string;
+    constructor (id: string, playerName: string) {
+        this.id = id;
+        this.name = playerName;
+    }
+}
+
 export class Player {
     name: string;
     id: string;
