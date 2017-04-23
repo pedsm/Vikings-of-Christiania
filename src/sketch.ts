@@ -34,13 +34,13 @@ class Boat {
 		var oldX = this.x
 		var oldY = this.y
 		push()
-		translate(width/2-this.x,height/2-this.y)
-		imageMode(CENTER)
+		translate(this.x,this.y)
 		textSize(20)
 		textFont(playerFont)
 		textAlign(CENTER)
 		text(this.name, 0, - 70)
-		rotate(this.direction+radians(180))
+		rotate(this.direction)
+		imageMode(CENTER)
 		image(assets[2],0,0)
 		pop()
 
@@ -49,6 +49,7 @@ class Boat {
 		this.x += this.velX
 		this.y += this.velY
 
+/*
 		if (this.x > 3925)
 			this.x = 3925
 		if (this.x < -3650)
@@ -57,6 +58,16 @@ class Boat {
 			this.y = 3890
 		if (this.y < -3700)
 			this.y = -3700
+*/
+if (this.x >= mapsize*128)
+	this.x = mapsize*128
+if (this.x <= mapsize*-128)
+	this.x = mapsize*-128
+if (this.y >= mapsize*128)
+	this.y = mapsize*128
+if (this.y <= mapsize*-128)
+	this.y = mapsize*-128
+			console.log("x:"+this.x+"\ny:" this.y)
 	}
 }
 
@@ -75,7 +86,8 @@ var gameState = []
 var projectile = [];
 var playerFont;
 var mapsize = 30;
-var Player = new Boat("",(Math.random()*6000)-3000,(Math.random()*6000)-3000);
+//var Player = new Boat("",(Math.random()*6000)-3000,(Math.random()*6000)-3000);
+var Player = new Boat("",0,0);
 
 
 function setup(){
@@ -91,30 +103,45 @@ function setup(){
 	assets.push(loadImage('assets/ship6.png'))
 	assets.push(loadImage('assets/cannonBall.png'))
 	assets.push(loadImage('assets/ground.png'))
+	assets.push(loadImage('assets/tile_38.png'))
+	assets.push(loadImage('assets/tile_41.png'))
+	assets.push(loadImage('assets/tile_56.png'))
+	assets.push(loadImage('assets/tile_08.png'))
+	assets.push(loadImage('assets/tile_37.png'))
+	assets.push(loadImage('assets/tile_53.png'))
+	assets.push(loadImage('assets/tile_52.png'))
+	assets.push(loadImage('assets/tile_36.png'))
+	boats.push(new Boat("yo",100,100))
 }
 
 function draw(){
-	//translate(width/2-boats[0].x,height/2-boats[0].y)
-	translate(Player.x,Player.y)
-	for(var i = -35; i < 35; i++){
-		for(var j = -35; j < 35; j++){
-			imageMode(CENTER)
-			image(assets[8],128*j+620, 128*i+400)
+	push()
+	translate(width/2-Player.x,height/2-Player.y)
+	imageMode(CENTER)
+	for(var i = mapsize*-1; i <= mapsize; i++){
+		for(var j = mapsize*-1; j <= mapsize; j++){
+			image(assets[0],128*j, 128*i)
 		}
 	}
-	for(var i = -30; i < 30; i++){
-		for(var j = -30; j < 30; j++){
-			imageMode(CENTER)
-			image(assets[0],128*j+570, 128*i+350)
-		}
+	for(var i = mapsize*-1; i <= mapsize; i++){
+			image(assets[9],128*mapsize, 128*i)
+			image(assets[10],-128*mapsize, 128*i)
+			image(assets[11],128*i, mapsize*-128)
+			image(assets[12],128*i, 128*mapsize)
+			image(assets[14],128*mapsize, 128*mapsize)
 	}
-
-
-	//Print all boats
-	Player.draw()
+	image(assets[15], -128*mapsize, 128*mapsize)
+	image(assets[16], -128*mapsize, -128*mapsize)
+	image(assets[13],128*mapsize, -128*mapsize)
 	boats.map((boat)=>{
 		boat.draw();
 	})
+	Player.draw()
+
+	pop()
+	//Print all boats
+
+
 	if(keyIsDown(LEFT_ARROW) || keyIsDown(65)) { Player.direction -= 0.04 }
 	if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ Player.direction += 0.04 }
 	if(keyIsDown(UP_ARROW) || keyIsDown(87))   { Player.speed = 5}
