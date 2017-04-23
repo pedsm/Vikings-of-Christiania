@@ -114,7 +114,6 @@ function draw(){
 	//Print all boats
 	Player.draw()
 	gameState.players.map((thing,i)=>{
-		console.log(i)
 		if(boats.length == i)
 		{
 			boats.push(new Boat(thing.name,thing.x,thing.y))
@@ -123,6 +122,7 @@ function draw(){
 		{
 			boats[i].x = thing.x
 			boats[i].y = thing.y
+			console.log("Synced")
 		}
 		boats[i].direction  = thing.direction
 		boats[i].speed = thing.speed
