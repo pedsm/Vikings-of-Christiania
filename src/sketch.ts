@@ -82,12 +82,13 @@ class Projectile {
 var boats = [];
 var assets = [];
 var bullet = [];
-var gameState = []
+var gameState = {players:[],projectile:[]}
 var projectile = [];
 var playerFont;
 var mapsize = 30;
-//var Player = new Boat("",(Math.random()*6000)-3000,(Math.random()*6000)-3000);
+
 var Player = new Boat("",0,0);
+
 
 
 function setup(){
@@ -130,9 +131,27 @@ function draw(){
 			image(assets[12],128*i, 128*mapsize)
 			image(assets[14],128*mapsize, 128*mapsize)
 	}
+
 	image(assets[15], -128*mapsize, 128*mapsize)
 	image(assets[16], -128*mapsize, -128*mapsize)
 	image(assets[13],128*mapsize, -128*mapsize)
+
+	//Print all boats
+	gameState.players.map((thing,i)=>{
+		if(boats.length == i)
+		{
+			boats.push(new Boat(thing.name,thing.x,thing.y))
+		}
+		if(abs(thing.x - boats[i].x) > 10 || abs(thing.y - boats[i].y)>10 || isNaN(boats[i].x)|| isNaN(boats[i].x))
+		{
+			boats[i].x = thing.x
+			boats[i].y = thing.y
+			console.log("Synced")
+		}
+		boats[i].direction  = thing.direction
+		boats[i].name  = thing.name
+		boats[i].speed = thing.speed
+	})
 	boats.map((boat)=>{
 		boat.draw();
 	})
@@ -145,4 +164,4 @@ function draw(){
 	if(keyIsDown(LEFT_ARROW) || keyIsDown(65)) { Player.direction -= 0.04 }
 	if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ Player.direction += 0.04 }
 	if(keyIsDown(UP_ARROW) || keyIsDown(87))   { Player.speed = 5}
- }
+}

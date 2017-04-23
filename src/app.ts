@@ -40,11 +40,32 @@ io.on('connection', function(socket) {
         var player: Player = new Player(socket.id, message.name);
         players.push(player);
     })
+	var cur = Date.now()
+    socket.on('update_gamestate', (remotePlayer) => {
+		// console.log(Date.now() - cur)
+		cur = Date.now()
+        var p = players.filter((pl) => pl.id == socket.id)[0];
+
+        if (!remotePlayer || !p) {
+            return;
+        }
+        p.x = remotePlayer.x;
+        p.y = remotePlayer.y;
+		p.speed = remotePlayer.speed;
+        p.direction = remotePlayer.direction;
+    })
 
     socket.on('disconnect', function() {
         players = players.filter((p) => p.id != socket.id);
     })
 })
+
+function shootProjectile (player) {
+    let projectile1 = new Projectile(player.name);
+    let projectile2 = new Projectile(player.name);
+    projectile1.direction = player.direction + (Math.PI / 4);
+    projectile2.direction = player.direction - (Math.PI / 4);
+}
 
 function kill(player){
     console.log("You got fragged m8. \n Need more mountain dew and doritos in your diet.");
@@ -58,17 +79,19 @@ setInterval(function() {
     {
         'players': players,
         'projectiles': projectiles
-    });
-    //collision with projectiles
-    function detectCollision(player){
-        projectiles.map((bullet)=>{
-            if(bullet.x > player.x-64 && bullet.y < player.x+64 &&
-               bullet.y > player.y-64 && bullet.y < player.y+64)
-            {
-                player.kill;
-            }
-        })
     }
-    players.forEach(detectCollision)
+    );
+
+    //collision with projectiles
+    // function detectCollision(player){
+    //     projectiles.map((bullet)=>{
+    //         if(bullet.x > player.x-64 && bullet.y < player.x+64 &&
+    //            bullet.y > player.y-64 && bullet.y < player.y+64)
+    //         {
+    //             player.kill;
+    //         }
+    //     })
+    // }
+    // players.forEach(detectCollision)
 
 }, updateInterval);
