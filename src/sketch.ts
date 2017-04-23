@@ -12,6 +12,7 @@ class Boat {
 	speed:number;
 	velX:number;
 	velY:number;
+	hp:number;
 	lastFrame:number;
 	constructor(id: string, name:string,x:number,y:number){
 		this.id = id;
@@ -24,6 +25,7 @@ class Boat {
 		this.velX = 0
 		this.velY = 0
 		this.lastFrame = Date.now()
+		this.hp = 100;
 	}
 	updateCoords(){
 		var time_diff = Date.now() - this.lastFrame;
@@ -43,7 +45,11 @@ class Boat {
 		fill(0)
 		textFont(playerFont)
 		textAlign(CENTER)
+		if(this.name == "")
+			this.name = "Biene"
 		text(this.name, 0, -70)
+		fill(46, 204, 113)
+		rect(-50,-110,this.hp,20)
 		rotate(this.direction)
 		imageMode(CENTER)
 		image(assets[2],0,0)
