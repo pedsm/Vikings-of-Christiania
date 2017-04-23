@@ -55,7 +55,10 @@
             }
 
             console.log("connected to ws")
-
+            socket.on('consts'(constants)=>{
+                bulletSpeed = constants.bulletSpeed
+                playerSpeed = constants.playerSpeed
+            })
             // Receive a gamestate update
             // This could either be a player movement, a player disconnection or a full update
             // We will handle each one individually
