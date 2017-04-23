@@ -140,7 +140,7 @@ function setup(){
 }
 
 function draw(){
-	let ratio = width/1028
+	let ratio = width/1500
 	push()
 	scale(ratio)
 	translate(width/(2*ratio)-Player.x,height/(2*ratio)-Player.y)
