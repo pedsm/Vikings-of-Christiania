@@ -68,11 +68,7 @@ if (this.y >= mapsize*128)
 	this.y = mapsize*128
 if (this.y <= mapsize*-128)
 	this.y = mapsize*-128
-<<<<<<< HEAD
-			console.log("x:"+this.x+"\ny:" this.y)
 mapsize++
-=======
->>>>>>> bd807b18efcd3d8d332b4aeb589053fa5f628ff0
 	}
 }
 
@@ -125,11 +121,12 @@ function draw(){
 	imageMode(CENTER)
 	if(frameCount > 10)
 		background(46, 204, 113)
-	for(var i = mapsize*-1; i <= mapsize; i++){
-		for(var j = mapsize*-1; j <= mapsize; j++){
-			image(assets[0],128*j, 128*i)
+
+		for(var i = mapsize*-1; i <= mapsize; i++){
+			for(var j = mapsize*-1; j <= mapsize; j++){
+				image(assets[0],128*j+(frameCount%120)*128/120, 128*i)
+			}
 		}
-	}
 	for(var i = mapsize*-1; i <= mapsize; i++){
 			image(assets[9],128*mapsize, 128*i)
 			image(assets[10],-128*mapsize, 128*i)
@@ -141,6 +138,9 @@ function draw(){
 	image(assets[15], -128*mapsize, 128*mapsize)
 	image(assets[16], -128*mapsize, -128*mapsize)
 	image(assets[13],128*mapsize, -128*mapsize)
+	fill(46, 204, 113)
+	noStroke()
+	rect(128*(mapsize+0.5),-128*(mapsize+0.5),128,128*(mapsize+0.5)*2)
 
 	//Print all boats
 	gameState.players.map((thing,i)=>{
