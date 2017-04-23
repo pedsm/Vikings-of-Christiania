@@ -15,6 +15,7 @@
                 <input id="nameInput" type="text" placeholder="Enter Name" name="name">
                 <div>
                     <button type="submit">Play!</button>
+                    <button type="button" onclick="spec()">Spectate</button>
                 </div>
             </form>
         </div>
@@ -23,6 +24,11 @@
             var socket = io();
 			var cur;
             var form = document.getElementById("login-form");
+			function spec(){
+				spectator = true
+				console.log(spectator)
+				form.submit()
+			}
 
 			// Fire a bullet
 			fire = ()=>{ socket.emit('fire'); }
@@ -30,7 +36,7 @@
             form.onsubmit = function () {
                 var playername = document.getElementById("nameInput").value;
                 Player.name = playername;
-                socket.emit('join_game', {name: playername});
+                socket.emit('join_game', {name: playername,spec:spectator});
                 console.log("Joining game!");
 
                 var last_x = Number.MIN_VALUE;
