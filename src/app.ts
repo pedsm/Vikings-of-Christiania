@@ -71,6 +71,13 @@ io.on('connection', function(socket) {
     })
 })
 
+function shootProjectile (player) {
+    let projectile1 = new Projectile(player.name);
+    let projectile2 = new Projectile(player.name);
+    projectile1.direction = player.direction + (Math.PI / 4);
+    projectile2.direction = player.direction - (Math.PI / 4);
+}
+
 function kill(player){
     console.log("You got fragged m8. \n Need more mountain dew and doritos in your diet.");
     player.x = 0;
