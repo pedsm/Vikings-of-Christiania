@@ -85,6 +85,7 @@
                             gs_player.y = rm_player.y;
                             gs_player.direction = rm_player.direction;
                             gs_player.speed = rm_player.speed;
+                            gs_player.hp = rm_player.hp;
                         }
                         break;
                     case "player_disconnect":
@@ -98,12 +99,15 @@
                             shootBullet(proj.x, proj.y, proj.direction);
                         })
                         break;
+                    case "player_killed":
+                        console.log("pk received");
+                        break;
                     default:
                         console.log(`Received unknown gamestate update type:`)
                         console.log(remoteGamestate)
                         break;
                 }
-            })
+            });
 
         </script>
 
