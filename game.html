@@ -33,11 +33,20 @@
                 socket.emit('join_game', {name: playername});
                 console.log("Joining game!");
 
+                var last_x = Number.MIN_VALUE;
+                var last_y = Number.MIN_VALUE;
+                var last_direction = Number.MIN_VALUE;
                 setInterval(() => {
-					// console.log(Date.now() - cur)
 					cur = Date.now()
-                    socket.emit('update_gamestate', Player);
-                }, 1000/30)
+
+                    // Only update if player position changes
+                    if (last_y != Player.y || last_x != Player.x || last_direction != Player.direction) {
+                        socket.emit('update_gamestate', Player);
+                        last_y = Player.y;
+                        last_x = Player.x;
+                        last_direction = Player.direction;
+                    }
+                }, 1000/60)
 
                 // Remove form
                 document.getElementsByClassName("container")[0].remove();
@@ -46,10 +55,46 @@
             }
 
             console.log("connected to ws")
-            socket.on('gamestate', (remoteGamestate) => {
-                remoteGamestate.players = remoteGamestate.players.filter((p) => p.id != socket.id);
-                gameState = remoteGamestate;
 
+            // Receive a gamestate update
+            // This could either be a player movement, a player disconnection or a full update
+            // We will handle each one individually
+            socket.on('gamestate', (remoteGamestate) => {
+                switch(remoteGamestate.type) {
+
+                    // Update an other players gamestate
+                    case "player_update":
+                        var rm_player = remoteGamestate.data; // Remote player
+                        // Don't update if it is our gamestate
+                        if (rm_player.id == socket.id) {
+                            return;
+                        }
+
+                        var gs_player = gameState.players.filter(
+                            (p) => p.id == remoteGamestate.data.id)[0];
+                        if (!gs_player) {
+                            // Create player
+                            gameState.players.push(rm_player);
+                        }
+                        else {
+                            // Update the old player data
+                            gs_player.x = rm_player.x;
+                            gs_player.y = rm_player.y;
+                            gs_player.direction = rm_player.direction;
+                            gs_player.speed = rm_player.speed;
+                        }
+                        break;
+                    case "player_disconnect":
+                        gameState.players = gameState.players.filter((p) => p.id != remoteGamestate.data);
+                        break;
+                    case "full_update":
+                        gameState.players = remoteGamestate.data.filter((p) => p.id != socket.id);
+                        break;
+                    default:
+                        console.log(`Received unknown gamestate update type:`)
+                        console.log(remoteGamestate)
+                        break;
+                }
             })
 
         </script>

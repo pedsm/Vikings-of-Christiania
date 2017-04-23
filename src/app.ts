@@ -39,24 +39,35 @@ io.on('connection', function(socket) {
         console.log(`:: Player ${message.name} has joined the game`)
         var player: Player = new Player(socket.id, message.name);
         players.push(player);
+
+        // Send current full gamestate
+        socket.emit('gamestate', {type: 'full_update', data: players})
     })
-	var cur = Date.now()
+
     socket.on('update_gamestate', (remotePlayer) => {
-		// console.log(Date.now() - cur)
-		cur = Date.now()
         var p = players.filter((pl) => pl.id == socket.id)[0];
 
         if (!remotePlayer || !p) {
             return;
         }
+
         p.x = remotePlayer.x;
         p.y = remotePlayer.y;
 		p.speed = remotePlayer.speed;
         p.direction = remotePlayer.direction;
+
+        io.in('default_room').emit('gamestate', {
+            type: 'player_update',
+            data:  p
+        });
     })
 
     socket.on('disconnect', function() {
         players = players.filter((p) => p.id != socket.id);
+        io.in('default_room').emit('gamestate', {
+            type: 'player_disconnect',
+            data:  socket.id
+        });
     })
 })
 
@@ -65,6 +76,8 @@ function shootProjectile (player) {
     let projectile2 = new Projectile(player.name);
     projectile1.direction = player.direction + (Math.PI / 4);
     projectile2.direction = player.direction - (Math.PI / 4);
+    projectiles.push(projectile1)
+    projectiles.push(projectile2)
 }
 
 function kill(player){
@@ -75,13 +88,6 @@ function kill(player){
 
 // Send the gamestate to everyone
 setInterval(function() {
-    io.in('default_room').emit('gamestate',
-    {
-        'players': players,
-        'projectiles': projectiles
-    }
-    );
-
     //collision with projectiles
     // function detectCollision(player){
     //     projectiles.map((bullet)=>{
