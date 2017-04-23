@@ -113,6 +113,8 @@ var bulletSpeed:number
 var playerSpeed:number
 
 var gg:boolean = false
+//Spectator mode
+var spectator:boolean = false
 
 var boats = [];
 var assets = [];
@@ -153,10 +155,24 @@ function setup(){
 function draw(){
 	let ratio = width/1500
 	push()
+	var offsetX = 0
+	var offsetY = 0
+	if(spectator)
+	{
+		offsetX = (mouseX - width/2)*-((30*128*2)/width)
+		offsetY = (mouseY - height/2)*-((30*128*2)/height)
+		ratio /= 2
+	}
+	pop()
+	push()
 	scale(ratio)
-	translate(width/(2*ratio)-Player.x,height/(2*ratio)-Player.y)
+	translate(width/(2*ratio)-Player.x+offsetX,height/(2*ratio)-Player.y+offsetY)
 	imageMode(CENTER)
-	if(frameCount > 10)
+	if(frameCount>10)
+	{
+		background(46, 204, 113)
+	}
+	if(frameCount > 10 && !spectator)
 		background(46, 204, 113)
 
 		for(var i = mapsize*-1; i <= mapsize; i++){
@@ -213,12 +229,14 @@ function draw(){
 	})
 	boats.map((boat:Boat)=>{ boat.draw(); })
 	bullets.map((bullet:Projectile)=>{ bullet.move() ; })
-	Player.draw()
-
+	if(!spectator)
+	{
+		Player.draw()
+	}
 	pop()
 	//Print all boats
 	//HUD
-	if(frameCount > 10)
+	if(frameCount > 10 && !spectator)
 	{
 		push()
 		translate(70,70)
@@ -288,7 +306,7 @@ var timer = 2000;
 var lastShot = 0;
 function keyPressed()
 {
-	if(keyCode == 32 && Date.now() - lastShot > timer)
+	if(keyCode == 32 && Date.now() - lastShot > timer && !spectator)
 	{
 		console.log("Shot")
 		fire()
