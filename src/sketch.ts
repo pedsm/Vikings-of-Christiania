@@ -67,7 +67,6 @@ if (this.y >= mapsize*128)
 	this.y = mapsize*128
 if (this.y <= mapsize*-128)
 	this.y = mapsize*-128
-			console.log("x:"+this.x+"\ny:" this.y)
 	}
 }
 
@@ -112,7 +111,6 @@ function setup(){
 	assets.push(loadImage('assets/tile_53.png'))
 	assets.push(loadImage('assets/tile_52.png'))
 	assets.push(loadImage('assets/tile_36.png'))
-	boats.push(new Boat("yo",100,100))
 }
 
 function draw(){
