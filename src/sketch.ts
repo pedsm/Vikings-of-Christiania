@@ -20,7 +20,6 @@ class Boat {
 		this.y  = y
 		this.size = 128
 		this.direction = 0
-		this.speed = 0
 		this.velX = 0
 		this.velY = 0
 		this.lastFrame = Date.now()
@@ -28,8 +27,8 @@ class Boat {
 	updateCoords(){
 		var time_diff = Date.now() - this.lastFrame;
 		this.lastFrame = Date.now();
-		var d_y = time_diff/10*this.speed * Math.cos(this.direction)
-		var d_x = time_diff/10*this.speed * Math.sin(this.direction)*-1
+		var d_y = time_diff*playerSpeed * Math.cos(this.direction)
+		var d_x = time_diff*playerSpeed * Math.sin(this.direction)*-1
 
 		this.x += d_x;
 		this.y += d_y;
@@ -76,7 +75,7 @@ class Projectile {
 		this.x = x
 		this.y = y
 		this.dir = dir
-		this.speed = 0.005
+		this.speed = bulletSpeed
 		this.lastUp = Date.now()
 	}
 	move(){
@@ -99,13 +98,17 @@ let LEFT_ARROW = 37
 let RIGHT_ARROW = 39
 let UP_ARROW = 38
 
+//constants received
+var bulletSpeed:number
+var playerSpeed:number
+
 var boats = [];
 var assets = [];
 var bullets = [];
 var gameState = {players:[],projectile:[]}
 var projectile = [];
 var playerFont;
-var mapsize = 30;
+var mapsize:number = 30;
 var fire = ()=>{}
 
 // var Player = new Boat("myId", "",(Math.random()*6000)-3000,(Math.random()*6000)-3000);
