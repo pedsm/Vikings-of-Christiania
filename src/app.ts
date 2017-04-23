@@ -65,6 +65,8 @@ function shootProjectile (player) {
     let projectile2 = new Projectile(player.name);
     projectile1.direction = player.direction + (Math.PI / 4);
     projectile2.direction = player.direction - (Math.PI / 4);
+    projectiles.push(projectile1)
+    projectiles.push(projectile2)
 }
 
 function kill(player){
