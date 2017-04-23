@@ -147,6 +147,9 @@ io.on('connection', function(socket) {
 
 // Shoot a projectile for the player
 function shootProjectile (player) {
+    if(player == undefined) {
+        return
+    }
     var projectile1 = new Projectile(player.id, player.x, player.y, -player.direction - 3*Math.PI/4);
     var projectile2 = new Projectile(player.id, player.x, player.y, -player.direction - Math.PI/4);
     projectile1.updateProjectile(0.4);
@@ -192,48 +195,43 @@ setInterval(function() {
             &&  Math.abs(player.y - proj.y) < 100
             &&  player.id != proj.source) { // Check that it's not the player's own projectile
 
-                // Remove projectile
-                // TODO broadcast in player death
-                projectiles = projectiles.filter((p)=>p!=proj);
+			// Remove projectile
+			// TODO broadcast in player death
+			projectiles = projectiles.filter((p)=>p!=proj);
 
-                // Player and projectile are in the same area so we'll subtract health.
-                player.hp -= consts.bulletDamage;
-                
-                // If a player dies
-                if (player.hp <= 0) {
-                    console.log(`Player ${player.name} has been killed`);
-                    players = players.filter((p)=>p.id!=player.id);
-                    io.in('default_room').emit('gamestate',
-                    {
-                        'type': 'player_killed',
-                        'data': {
-                            'player': player,
-                            'projectile': proj
-                        }
-                    });
+			// Player and projectile are in the same area so we'll subtract health.
+			player.hp -= consts.bulletDamage;
 
-                    // Add points to the killer
-                    var killer = players.filter((p)=>p.id==proj.source)[0];
-                    if (killer) {
-                        killer.score += 100;
-                    }
+			// If a player dies
+			if (player.hp <= 0) {
+				console.log(`Player ${player.name} has been killed`);
+				players = players.filter((p)=>p.id!=player.id);
+				io.in('default_room').emit('gamestate',
+				{
+					'type': 'player_killed',
+					'data': {
+						'player': player,
+						'projectile': proj
+					}
+				});
 
-                    io.in('default_room').emit('chat',
-                        {
-                            'type': 'player_kill',
-                            'contents': `<span class="player_kill"><b>${player.name}</b> has been killed by ${killer.name}</span>`
-                        });
+				// Add points to the killer
+				var killer = players.filter((p)=>p.id==proj.source)[0];
+				if (killer) {
+					killer.score += 100;
+				}
 
-                }
+				io.in('default_room').emit('chat',
+				{ 'type': 'player_kill',
+				'contents': `<span class="player_kill"><b>${player.name}</b> has been killed by ${killer.name}</span>` })
 
-                // Otherwise broadcast to the room the new state of the player.
-                else {
-                    io.in('default_room').emit('gamestate', {
-                        type: 'player_update',
-                        data:  player
-                    });
-                }
-            }
+			} else {
+				io.in('default_room').emit('gamestate', {
+					type: 'player_update',
+					data:  player
+				});
+			}
+		}
         });
     });
 
