@@ -14,6 +14,7 @@ class Boat {
 	velY:number;
 	hp:number;
 	lastFrame:number;
+	score:number;
 	constructor(id: string, name:string,x:number,y:number){
 		this.id = id;
 		this.name = name
@@ -26,6 +27,7 @@ class Boat {
 		this.velY = 0
 		this.lastFrame = Date.now()
 		this.hp = 100;
+		this.score = 0;
 	}
 	updateCoords(){
 		var time_diff = Date.now() - this.lastFrame;
@@ -234,14 +236,22 @@ function draw(){
 			ellipse(boat.x/2,boat.y/2,5,5)
 		})
 		pop()
+		push()
+		translate(width/2,height-20)
+		textFont(playerFont)
+		textAlign(CENTER)
+		textSize(32)
+		text(`Score:${Player.score}`,0,0)
+		pop()
 	}
 	// ellipse(70,70,100,100)
 
-
-	if(keyIsDown(LEFT_ARROW) || keyIsDown(65)) { Player.direction -= 0.04 }
-	if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ Player.direction += 0.04 }
+	var mult = 1
+	if(keyIsDown(16)){ mult = 2 }
+	if(keyIsDown(LEFT_ARROW) || keyIsDown(65)) { Player.direction -= 0.04*mult*mult }
+	if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ Player.direction += 0.04*mult*mult }
 	if(keyIsDown(UP_ARROW) || keyIsDown(87)) {
-		Player.speed = playerSpeed
+		Player.speed = playerSpeed / mult
 	}
 	else {
 		Player.speed = 0;
