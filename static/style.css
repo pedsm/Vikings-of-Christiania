@@ -5,4 +5,20 @@ body {
   background: url("background.jpg") no-repeat center center fixed;
   background-size: cover; }
 
+#chat-box {
+  width: 18em;
+  padding: 1em;
+  position: absolute;
+  bottom: 0;
+  left: 0; }
+  #chat-box #chat-history {
+    height: 20em;
+    width: 18em;
+    overflow: hidden; }
+    #chat-box #chat-history .player_kill {
+      color: red; }
+  #chat-box input {
+    margin-bottom: 0;
+    width: 18em; }
+
 /*# sourceMappingURL=style.css.map */

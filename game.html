@@ -27,9 +27,16 @@
 			// Fire a bullet
 			fire = ()=>{ socket.emit('fire'); }
 
+            // Connect the chatbox
+            socket.on('chat', function(message) {
+                console.log(message.type);
+                document.getElementById("chat-history").innerHTML += message.contents + '<br>'
+            })
+
             form.onsubmit = function () {
-                var playername = document.getElementById("nameInput").value;
+                var playername = document.getElementById("nameInput").value || "Biene";
                 Player.name = playername;
+
                 socket.emit('join_game', {name: playername});
                 console.log("Joining game!");
 
@@ -48,10 +55,13 @@
                     }
                 }, 1000/60)
 
-                // Remove form
+                // Remove login form
                 document.getElementsByClassName("container")[0].remove();
+
+
                 loop();
                 return false;
+
             }
 
             console.log("connected to ws")
@@ -121,6 +131,27 @@
                 }
             });
 
+        </script>
+
+        <div id="chat-box">
+            <div id="chat-history"></div>
+            <form id="chat-form">
+                <input type="text" id="chat-input" />
+                <input type="submit" />
+            </form>
+        </div>
+
+        <script>
+            var chatboxform = document.getElementById("chat-form");
+            chatboxform.onsubmit = function() {
+                var message_val = document.getElementById("chat-input").value;
+                console.log(message_val);
+                socket.emit('chat', message_val);
+                // Blank out the message box
+                document.getElementById("chat-input").value = "";
+
+                return false;
+            }
         </script>
 
     </body>
