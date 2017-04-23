@@ -113,6 +113,8 @@ io.on('connection', function(socket) {
 function shootProjectile (player) {
     var projectile1 = new Projectile(player.id, player.x, player.y, -player.direction - 3*Math.PI/4);
     var projectile2 = new Projectile(player.id, player.x, player.y, -player.direction - Math.PI/4);
+    projectile1.updateProjectile(0.4);
+    projectile2.updateProjectile(0.4);
 
     projectiles.push(projectile1)
     projectiles.push(projectile2)
@@ -143,10 +145,8 @@ setInterval(function() {
 
     // Update projectile positions
     projectiles.forEach((p) => {
-        p.x += time_diff * consts.bulletSpeed * Math.cos(p.direction);
-        p.y += time_diff * consts.bulletSpeed * Math.sin(p.direction);
+        p.updateProjectile(time_diff);
     });
-
 
     // Check for collisions between players and projectiles
     // TODO make this better by doing dynamic hitbox based on direction of
