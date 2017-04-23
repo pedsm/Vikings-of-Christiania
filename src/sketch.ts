@@ -154,7 +154,6 @@ function setup(){
 
 function draw(){
 	let ratio = width/1500
-	push()
 	var offsetX = 0
 	var offsetY = 0
 	if(spectator)
@@ -165,7 +164,6 @@ function draw(){
 		Player.x = 0
 		Player.y = 0
 	}
-	pop()
 	push()
 	scale(ratio)
 	translate(width/(2*ratio)-Player.x+offsetX,height/(2*ratio)-Player.y+offsetY)
@@ -230,11 +228,7 @@ function draw(){
 	})
 	boats.filter((thing)=>{return thing.name != "Spec"}).map((boat:Boat)=>{ boat.draw(); })
 	bullets.map((bullet:Projectile)=>{ bullet.move() ; })
-	if(!spectator)
-	{
-		Player.draw()
-}
-	else{Player.name = "Spec"}
+	if(!spectator) { Player.draw() } else { Player.name = "Spec" }
 	pop()
 	//Print all boats
 	//HUD

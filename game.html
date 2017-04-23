@@ -37,37 +37,43 @@
 			fire = ()=>{ socket.emit('fire'); }
 
             form.onsubmit = function () {
-                var playername = document.getElementById("nameInput").value || "Biene";
-				if(spectator)
-				{
-					playername = "Spec"
-				}
-                Player.name = playername;
+				if(spectator) {
+                    Player.name = document.getElementById("nameInput").value || "Speccy";
+				} else { // Is a player
+                    Player.name = document.getElementById("nameInput").value || "Biene";
+                }
 
-                socket.emit('join_game', {name: playername, isSpectator:spectator});
+                // Request to join the game.
+                socket.emit('join_game', {name: Player.name, isSpectator:spectator});
                 console.log("Joining game!");
 
+                // Send updates to the server
                 var last_x = Number.MIN_VALUE;
                 var last_y = Number.MIN_VALUE;
                 var last_direction = Number.MIN_VALUE;
+                var last_speed = Number.MIN_VALUE;
                 setInterval(() => {
 					cur = Date.now()
 
                     // Only update if player position changes
-                    if (last_y != Player.y || last_x != Player.x || last_direction != Player.direction) {
+                    if (last_y != Player.y || last_x != Player.x || last_direction != Player.speed || last_speed) {
                         socket.emit('update_gamestate', Player);
                         last_y = Player.y;
                         last_x = Player.x;
                         last_direction = Player.direction;
+                        last_speed = Player.speed;
                     }
                 }, 1000/60)
 
                 // Remove login form
-                    document.getElementsByClassName("container")[0].remove();
+                document.getElementsByClassName("container")[0].remove();
 
-                // show chatbox
+                // show chatbox for the players
                 if (!spectator) {
                     document.getElementById("chat-box").style.visibility = 'visible';
+                }
+                else {
+                    document.getElementById("chat-history").style.visibility = 'visible';
                 }
 
                 // Connect the chatbox
@@ -81,7 +87,6 @@
 
                 loop();
                 return false;
-
             }
 
             console.log("connected to ws")

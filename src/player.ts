@@ -32,6 +32,7 @@ export class Player {
         this.x = 20*Math.random() - 10;
         this.y = 20*Math.random() - 10;
         this.score = 0;
+        this.speed = 0;
         this.direction = 0;
         this.hp = 100;
     }
