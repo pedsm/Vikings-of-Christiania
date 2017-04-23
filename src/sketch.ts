@@ -126,7 +126,7 @@ var mapsize:number = 30;
 var fire = ()=>{}
 
 // var Player = new Boat("myId", "",(Math.random()*6000)-3000,(Math.random()*6000)-3000);
-var Player = new Boat("myID","",100,100);
+var Player = new Boat("myID","",(Math.random()*6500)-3250,(Math.random()*6500)-3250);
 
 
 function setup(){
