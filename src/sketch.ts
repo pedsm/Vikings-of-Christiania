@@ -49,17 +49,6 @@ class Boat {
 		pop()
 
 		this.updateCoords()
-
-/*
-		if (this.x > 3925)
-			this.x = 3925
-		if (this.x < -3650)
-			this.x = -3650
-		if (this.y > 3890)
-			this.y = 3890
-		if (this.y < -3700)
-			this.y = -3700
-*/
 mapsize--
 if (this.x >= mapsize*128)
 	this.x = mapsize*128
@@ -78,7 +67,25 @@ class Projectile {
 	y:number
 	speedX:number
 	speedY:number
+	speed:number
 	owner:string
+	dir:number
+	lastUp:number
+	constructor(x,y,dir){
+		this.x = x
+		this.y = y
+		this.dir = dir
+		this.speed = 10
+		this.lastUp = Date.now()
+	}
+	move(){
+		var time_diff = Date.now() - this.lastUp
+		this.speedX = time_diff/10*this.speed * Math.cos(this.dir)
+		this.speedY = time_diff/10*this.speed * Math.sin(this.dir)*-1
+
+		this.x += this.speedX
+		this.y += this.speedY
+	}
 }
 
 var boats = [];
@@ -88,6 +95,7 @@ var gameState = {players:[],projectile:[]}
 var projectile = [];
 var playerFont;
 var mapsize = 30;
+var fire = ()=>{}
 
 // var Player = new Boat("myId", "",(Math.random()*6000)-3000,(Math.random()*6000)-3000);
 var Player = new Boat("myID","",100,100);
@@ -186,11 +194,14 @@ function draw(){
 		Player.speed = 0;
 	}
 }
-
+var timer = 2000;
+var lastShot = 0;
 function keyPressed()
 {
-	if(keyCode == 32)
+	if(keyCode == 32 && Date.now() - lastShot > timer)
 	{
+		console.log("Shot")
 		fire()
+		lastShot =  Date.now()
 	}
 }

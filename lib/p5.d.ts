@@ -2,7 +2,6 @@
 
 declare class p5 {
   // Properties from p5
-
   // src/3d/3d_primitives.js
 
   /**
