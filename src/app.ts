@@ -42,7 +42,7 @@ io.on('connection', function(socket) {
     })
 
     socket.on('update_gamestate', (remotePlayer) => {
-        var p = players.filter((p) => p.id == socket.id)[0];
+        var p = players.filter((pl) => pl.id == socket.id)[0];
 
         if (!remotePlayer || !p) {
             return;
