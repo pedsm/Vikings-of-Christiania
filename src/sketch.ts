@@ -163,3 +163,11 @@ function draw(){
 	if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ Player.direction += 0.04 }
 	if(keyIsDown(UP_ARROW) || keyIsDown(87))   { Player.speed = 5}
 }
+
+function keyPressed()
+{
+	if(keyCode == 32)
+	{
+		fire()
+	}
+}

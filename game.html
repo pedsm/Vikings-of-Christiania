@@ -23,6 +23,10 @@
             var socket = io();
 			var cur;
             var form = document.getElementById("login-form");
+
+			// Fire a bullet
+			fire = ()=>{ socket.emit('fire'); }
+
             form.onsubmit = function () {
                 var playername = document.getElementById("nameInput").value;
                 Player.name = playername;

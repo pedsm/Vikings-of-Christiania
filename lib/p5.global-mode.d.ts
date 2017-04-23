@@ -765,7 +765,7 @@ declare var keyCode: any;
 /**
  * The keyPressed() function is called once every time a key is pressed.
  */
-declare function keyPressed(): void;
+// declare function keyPressed(): void;
 
 /**
  * The keyReleased() function is called once every time a key is released.
