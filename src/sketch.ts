@@ -36,6 +36,7 @@ class Boat {
 		push()
 		translate(this.x,this.y)
 		textSize(20)
+		fill(0)
 		textFont(playerFont)
 		textAlign(CENTER)
 		text(this.name, 0, - 70)
