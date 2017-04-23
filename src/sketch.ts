@@ -118,7 +118,7 @@ function draw(){
 		{
 			boats.push(new Boat(thing.name,thing.x,thing.y))
 		}
-		if(abs(thing.x - boats[i].x) > 10 || abs(thing.y - boats[i].y))
+		if(abs(thing.x - boats[i].x) > 10 || abs(thing.y - boats[i].y)>10)
 		{
 			boats[i].x = thing.x
 			boats[i].y = thing.y
