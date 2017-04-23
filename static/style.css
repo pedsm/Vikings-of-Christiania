@@ -8,15 +8,24 @@ body {
 #chat-box {
   width: 18em;
   padding: 1em;
+  visibility: hidden;
   position: absolute;
   bottom: 0;
   left: 0; }
+  #chat-box .chat-history-container {
+    overflow: hidden;
+    width: 18em; }
   #chat-box #chat-history {
-    height: 20em;
-    width: 18em;
-    overflow: hidden; }
+    height: 15em;
+    width: 20em;
+    overflow-x: hidden;
+    overflow-y: scroll; }
     #chat-box #chat-history .player_kill {
       color: red; }
+    #chat-box #chat-history .player_leave {
+      color: darkslategrey; }
+    #chat-box #chat-history .player_join {
+      color: green; }
   #chat-box input {
     margin-bottom: 0;
     width: 18em; }

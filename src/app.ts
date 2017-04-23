@@ -85,11 +85,19 @@ io.on('connection', function(socket) {
 
 
     socket.on('disconnect', function() {
+        var player_name = players.filter((p)=>p.id==socket.id)[0].name;
         players = players.filter((p) => p.id != socket.id);
+
+        // Tell clients
         io.in('default_room').emit('gamestate', {
             type: 'player_disconnect',
             data:  socket.id
         });
+
+        // Tell the chat
+        io.in('default_room').emit('chat',
+            { 'type': 'player_join',
+            'contents': `<span class="player_leave"><b>${player_name}</b> has left the game :(`});
     })
 })
 
@@ -167,7 +175,7 @@ setInterval(function() {
                     }
 
                     io.in('default_room').emit('chat',
-                        { 'type': 'player_join',
+                        { 'type': 'player_kill',
                         'contents': `<span class="player_kill"><b>${player.name}</b> has been killed by ${killer.name}</span>` }
 
                 }

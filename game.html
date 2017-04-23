@@ -27,12 +27,6 @@
 			// Fire a bullet
 			fire = ()=>{ socket.emit('fire'); }
 
-            // Connect the chatbox
-            socket.on('chat', function(message) {
-                console.log(message.type);
-                document.getElementById("chat-history").innerHTML += message.contents + '<br>'
-            })
-
             form.onsubmit = function () {
                 var playername = document.getElementById("nameInput").value || "Biene";
                 Player.name = playername;
@@ -57,6 +51,17 @@
 
                 // Remove login form
                 document.getElementsByClassName("container")[0].remove();
+
+                // show chatbox
+                document.getElementById("chat-box").style.visibility = 'visible';
+
+                // Connect the chatbox
+                socket.on('chat', function(message) {
+                    console.log(message.type);
+                    document.getElementById("chat-history").innerHTML += message.contents + '<br>'
+                    var chathistory = document.getElementById("chat-history");
+                    chathistory.scrollTop = chathistory.scrollHeight;
+                })
 
 
                 loop();
@@ -134,7 +139,9 @@
         </script>
 
         <div id="chat-box">
-            <div id="chat-history"></div>
+            <div class="chat-history-container">
+                <div id="chat-history"></div>
+            </div>
             <form id="chat-form">
                 <input type="text" id="chat-input" />
                 <input type="submit" />
