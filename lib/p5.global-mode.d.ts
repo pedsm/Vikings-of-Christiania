@@ -246,7 +246,7 @@ declare function triangle(x1: number, y1: number, x2: number, y2: number, x3: nu
 //
 //   param "mode" has invalid type: Number/Constant
 //
-// declare function ellipseMode(mode: Number/Constant): p5;
+declare function ellipseMode(mode: Number): p5;
 
 /**
  * Draws all geometry with jagged (aliased) edges.
