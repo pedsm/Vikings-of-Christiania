@@ -3,6 +3,7 @@ export class Player {
     name: string;
     id: string;
     hp: number;
+    score: number;
     x: number;
     y: number;
 	speed: number;
@@ -10,11 +11,11 @@ export class Player {
     constructor (id: string, playerName: string) {
         this.id = id;
         this.name = playerName;
-
         // TODO: make this more intelligent
         // Sets the location between +-10;
         this.x = 20*Math.random() - 10;
         this.y = 20*Math.random() - 10;
+        this.score = 0;
         this.direction = 0;
         this.hp = 100;
     }

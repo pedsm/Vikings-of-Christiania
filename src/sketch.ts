@@ -207,6 +207,7 @@ function draw(){
 		boat.name  = gs_player.name
 		boat.speed = gs_player.speed
 		boat.hp = gs_player.hp
+		boat.score = gs_player.score;
 	})
 	boats.map((boat:Boat)=>{ boat.draw(); })
 	bullets.map((bullet:Projectile)=>{ bullet.move() ; })

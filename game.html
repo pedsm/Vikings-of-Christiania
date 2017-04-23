@@ -74,6 +74,7 @@
                         // Don't update if it is our gamestate except the hp
                         if (rm_player.id == socket.id) {
                             Player.hp = rm_player.hp;
+                            Player.score = rm_player.score;
                             return;
                         }
 
@@ -88,6 +89,7 @@
                             gs_player.direction = rm_player.direction;
                             gs_player.speed = rm_player.speed;
                             gs_player.hp = rm_player.hp;
+                            gs_player.score = rm_player.score;
                         }
                         break;
                     case "player_disconnect":
