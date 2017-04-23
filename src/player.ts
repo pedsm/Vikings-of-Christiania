@@ -24,8 +24,11 @@ export class Projectile {
     y: number;
     direction: number;
     speed: number;
-    contructor (playerId: string) {
+    constructor (playerId: string, x: number, y: number, direction: number) {
         this.source = playerId;
+        this.x = x;
+        this.y = y;
+        this.direction = direction;
     }
     updateProjectile(time: number) {
         this.x += this.speed * Math.cos(this.direction) * time;
