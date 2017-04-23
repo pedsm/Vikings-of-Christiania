@@ -113,12 +113,19 @@ function draw(){
 
 	//Print all boats
 	Player.draw()
-	boats = []
-	gameState.players.map((thing)=>{
-		var tmp = new Boat(thing.name,thing.x,thing.y)
-		tmp.direction  = thing.direction
-		tmp.name = thing.name
-		boats.push(tmp)
+	gameState.players.map((thing,i)=>{
+		console.log(i)
+		if(boats.length == i)
+		{
+			boats.push(new Boat(thing.name,thing.x,thing.y))
+		}
+		if(abs(thing.x - boats[i].x) > 10 || abs(thing.y - boats[i].y))
+		{
+			boats[i].x = thing.x
+			boats[i].y = thing.y
+		}
+		boats[i].direction  = thing.direction
+		boats[i].speed = thing.speed
 	})
 	boats.map((boat)=>{
 		boat.draw();
@@ -126,4 +133,4 @@ function draw(){
 	if(keyIsDown(LEFT_ARROW) || keyIsDown(65)) { Player.direction -= 0.04 }
 	if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ Player.direction += 0.04 }
 	if(keyIsDown(UP_ARROW) || keyIsDown(87))   { Player.speed = 5}
- }
+}

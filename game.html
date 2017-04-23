@@ -21,6 +21,7 @@
         <script src="sketch.js"/></script>
         <script>
             var socket = io();
+			var cur;
             var form = document.getElementById("login-form");
             form.onsubmit = function () {
                 var playername = document.getElementById("nameInput").value;
@@ -29,6 +30,8 @@
                 console.log("Joining game!");
 
                 setInterval(() => {
+					// console.log(Date.now() - cur)
+					cur = Date.now()
                     socket.emit('update_gamestate', Player);
                 }, 1000/30)
 

@@ -4,6 +4,7 @@ export class Player {
     id: string;
     x: number;
     y: number;
+	speed: number;
     direction: number;
     constructor (id: string, playerName: string) {
         this.id = id;
@@ -24,11 +25,10 @@ export class Projectile {
     direction: number;
     speed: number;
     contructor (sourcePlayer: Player) {
-        this.source = sourcePlayer;    
+        this.source = sourcePlayer;
     }
     updateProjectile(time: number) {
         this.x += this.speed * Math.cos(this.direction) * time;
         this.y += this.speed * Math.sin(this.direction) * time;
     }
 }
-

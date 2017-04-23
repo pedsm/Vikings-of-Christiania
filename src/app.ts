@@ -40,8 +40,10 @@ io.on('connection', function(socket) {
         var player: Player = new Player(socket.id, message.name);
         players.push(player);
     })
-
+	var cur = Date.now()
     socket.on('update_gamestate', (remotePlayer) => {
+		// console.log(Date.now() - cur)
+		cur = Date.now()
         var p = players.filter((pl) => pl.id == socket.id)[0];
 
         if (!remotePlayer || !p) {
@@ -49,6 +51,7 @@ io.on('connection', function(socket) {
         }
         p.x = remotePlayer.x;
         p.y = remotePlayer.y;
+		p.speed = remotePlayer.speed;
         p.direction = remotePlayer.direction;
     })
 
