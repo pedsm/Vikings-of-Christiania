@@ -140,9 +140,10 @@ function setup(){
 }
 
 function draw(){
+	let ratio = width/1028
 	push()
-	scale(0.5)
-	translate(width-Player.x,height-Player.y)
+	scale(ratio)
+	translate(width/(2*ratio)-Player.x,height/(2*ratio)-Player.y)
 	imageMode(CENTER)
 	if(frameCount > 10)
 		background(46, 204, 113)
