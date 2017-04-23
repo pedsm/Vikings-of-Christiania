@@ -1,3 +1,4 @@
 export var consts = {
-	"bulletSpeed":10
+	"bulletSpeed": 1.0,
+	"playerSpeed": 0.5,
 }
