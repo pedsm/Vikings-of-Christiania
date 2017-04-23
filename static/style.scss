@@ -5,3 +5,44 @@ body {
     background: url("background.jpg") no-repeat center center fixed;
     background-size: cover;
 }
+
+$chatboxwidth: 18em;
+
+#chat-box {
+    width: $chatboxwidth;
+    padding: 1em;
+    visibility: hidden;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    .chat-history-container {
+        overflow: hidden;
+        width: $chatboxwidth;
+    }
+
+    #chat-history {
+        height: 15em;
+        width: $chatboxwidth + 2em;
+        overflow-x: hidden;
+        overflow-y: scroll;
+
+        .player_kill {
+            color: red;
+        }
+
+        .player_leave {
+            color: darkslategrey;
+        }
+
+        .player_join {
+            color: green;
+        }
+    }
+
+    input {
+        margin-bottom: 0;
+        width: $chatboxwidth;
+    }
+}
