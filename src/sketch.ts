@@ -75,7 +75,8 @@ var gameState = {players:[],projectile:[]}
 var projectile = [];
 var playerFont;
 var mapsize = 30;
-var Player = new Boat("",(Math.random()*6000)-3000,(Math.random()*6000)-3000);
+// var Player = new Boat("",(Math.random()*6000)-3000,(Math.random()*6000)-3000);
+var Player = new Boat("",100,100);
 
 
 function setup(){
