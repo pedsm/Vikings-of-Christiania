@@ -197,7 +197,7 @@ function draw(){
 
 	// Remove dead boats
 	boats = boats.filter((b)=> {
-		return gameState.players.reduce((x,y)=>{return x.id==b.id || y.id },false);
+		return gameState.players.reduce((x,y)=>{return x.id || y.id==b.id},false);
 	})
 
 	//Print all boats
@@ -232,7 +232,7 @@ function draw(){
 	if(!spectator)
 	{
 		Player.draw()
-	}
+}
 	else{Player.name = "Spec"}
 	pop()
 	//Print all boats
