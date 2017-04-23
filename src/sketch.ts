@@ -91,6 +91,9 @@ class Projectile {
 		imageMode(CENTER)
 		image(assets[7],0,0)
 		pop()
+		console.log(bullets)
+		bullets = bullets.filter((b)=>{return !(b.x > 128*mapsize || b.y > 128*mapsize || b.y < -128*mapsize || b.x < -128*mapsize)})
+		console.log(bullets)
 	}
 }
 let CENTER = "center"
@@ -132,7 +135,7 @@ function setup(){
 	assets.push(loadImage('assets/tile_53.png'))
 	assets.push(loadImage('assets/tile_52.png'))
 	assets.push(loadImage('assets/tile_36.png'))
-	bullets.push(new Projectile(100,100,0))
+	shootBullet(100,100,PI/2)
 }
 
 function draw(){
