@@ -101,7 +101,7 @@
                         break;
                     case "player_killed":
                         if (remoteGamestate.data.player.id == socket.id) {
-                            noLoop();
+							gg = true;
                             console.log("you have been killed")
                         }
                         else {

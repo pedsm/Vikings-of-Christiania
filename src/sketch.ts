@@ -112,6 +112,8 @@ let UP_ARROW = 38
 var bulletSpeed:number
 var playerSpeed:number
 
+var gg:boolean = false
+
 var boats = [];
 var assets = [];
 var bullets = [];
@@ -176,7 +178,7 @@ function draw(){
 	fill(46, 204, 113)
 	noStroke()
 	rect(128*(mapsize+0.5),-128*(mapsize+0.5),128,128*(mapsize+0.5)*2)
-	
+
 	// Remove dead boats
 	boats = boats.filter((b)=> {
 		return gameState.players.reduce((x,y)=>{return x.id==b.id || y.id },false);
@@ -265,6 +267,7 @@ function draw(){
 		textSize(32)
 		text(`Score:${Player.score}`,0,0)
 		pop()
+		if(gg) { ggFunc(); }
 	}
 	// ellipse(70,70,100,100)
 
@@ -293,4 +296,16 @@ function keyPressed()
 function shootBullet(x,y,dir)
 {
 	bullets.push(new Projectile(x,y,dir))
+}
+function ggFunc()
+{
+	push()
+	translate(width/2,width/2)
+	textAlign(CENTER)
+	textSize(50)
+	textFont(playerFont)
+	text("Game Over",0,0)
+	document.body.setAttribute("style","-webkit-filter:grayscale(100%);")
+	pop()
+	noLoop()
 }
