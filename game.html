@@ -90,6 +90,10 @@
                     case "full_update":
                         gameState.players = remoteGamestate.data.filter((p) => p.id != socket.id);
                         break;
+                    case "new_projectiles":
+                        remoteGamestate.data.forEach((proj) => {
+                            shootBullet(proj.x, proj.y, proj.direction);
+                        })
                     default:
                         console.log(`Received unknown gamestate update type:`)
                         console.log(remoteGamestate)
