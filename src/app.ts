@@ -147,6 +147,12 @@ setInterval(function() {
                             'projectile': proj
                         }
                     });
+
+                    // Add points to the killer
+                    var killer = players.filter((p)=>p.id==proj.source)[0];
+                    if (killer) {
+                        killer.score += 100;
+                    }
                 }
 
                 else {
