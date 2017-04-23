@@ -91,6 +91,7 @@ class Projectile {
 		imageMode(CENTER)
 		image(assets[7],0,0)
 		pop()
+		bullets = bullets.filter((b)=>{return !(b.x > 128*mapsize || b.y > 128*mapsize || b.y < -128*mapsize || b.x < -128*mapsize)})
 	}
 }
 let CENTER = "center"
