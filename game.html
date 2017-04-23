@@ -100,7 +100,15 @@
                         })
                         break;
                     case "player_killed":
-                        console.log("pk received");
+                        if (remoteGamestate.data.player.id == socket.id) {
+                            noLoop();
+                            console.log("you have been killed")
+                        }
+                        else {
+                            console.log(`${remoteGamestate.data.player.name} has been killed`)
+                            // Remove the player from the gamestate
+                            gameState.players = gameState.players.filter((p)=>p.id!=remoteGamestate.data.player.id);
+                        }
                         break;
                     default:
                         console.log(`Received unknown gamestate update type:`)

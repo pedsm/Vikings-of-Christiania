@@ -137,6 +137,8 @@ setInterval(function() {
                 player.hp -= consts.bulletDamage;
                 
                 if (player.hp <= 0) {
+                    console.log(`Player ${player.name} has been killed`);
+                    players = players.filter((p)=>p.id!=player.id);
                     io.in('default_room').emit('gamestate',
                     {
                         'type': 'player_killed',
@@ -148,7 +150,6 @@ setInterval(function() {
                 }
 
                 else {
-                    console.log(`Player ${player.name} has been killed`);
                     io.in('default_room').emit('gamestate', {
                         type: 'player_update',
                         data:  player

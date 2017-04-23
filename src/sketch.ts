@@ -181,7 +181,7 @@ function draw(){
 	gameState.players.map((gs_player)=>{
 		// The current boat we are updating
 		var boat = boats.filter((b) => b.id == gs_player.id)[0]
-		var threshold = 48;
+		var threshold = 64;
 
 		// Create a new boat if none exists
 		if(!boat) {
