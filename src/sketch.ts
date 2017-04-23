@@ -118,13 +118,14 @@ function draw(){
 		{
 			boats.push(new Boat(thing.name,thing.x,thing.y))
 		}
-		if(abs(thing.x - boats[i].x) > 10 || abs(thing.y - boats[i].y)>10)
+		if(abs(thing.x - boats[i].x) > 10 || abs(thing.y - boats[i].y)>10 || isNaN(boats[i].x)|| isNaN(boats[i].x))
 		{
 			boats[i].x = thing.x
 			boats[i].y = thing.y
 			console.log("Synced")
 		}
 		boats[i].direction  = thing.direction
+		boats[i].name  = thing.name
 		boats[i].speed = thing.speed
 	})
 	boats.map((boat)=>{
