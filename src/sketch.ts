@@ -43,23 +43,23 @@ class Boat {
 		fill(0)
 		textFont(playerFont)
 		textAlign(CENTER)
-		text(this.name, 0, - 70)
+		text(this.name, 0, -70)
 		rotate(this.direction)
 		imageMode(CENTER)
 		image(assets[2],0,0)
 		pop()
 
 		this.updateCoords()
-mapsize--
-if (this.x >= mapsize*128)
-	this.x = mapsize*128
-if (this.x <= mapsize*-128)
-	this.x = mapsize*-128
-if (this.y >= mapsize*128)
-	this.y = mapsize*128
-if (this.y <= mapsize*-128)
-	this.y = mapsize*-128
-mapsize++
+		mapsize--
+		if (this.x >= mapsize*128)
+			this.x = mapsize*128
+		if (this.x <= mapsize*-128)
+			this.x = mapsize*-128
+		if (this.y >= mapsize*128)
+			this.y = mapsize*128
+		if (this.y <= mapsize*-128)
+			this.y = mapsize*-128
+		mapsize++
 	}
 }
 
@@ -88,6 +88,10 @@ class Projectile {
 		this.y += this.speedY
 	}
 }
+let CENTER = "center"
+let LEFT_ARROW = 37
+let RIGHT_ARROW = 39
+let UP_ARROW = 38
 
 var boats = [];
 var assets = [];

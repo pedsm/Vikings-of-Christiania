@@ -971,7 +971,7 @@ declare function saveFrames(filename: string, extension: string, duration: numbe
 //   param "successCallback" has invalid type: Function(p5.Image)
 //   param "failureCallback" has invalid type: Function(Event)
 //
-declare function loadImage(path: string, successCallback?: Function(p5.Image), failureCallback?: Function(Event)): p5.Image;
+declare function loadImage(path: string): p5.Image;
 
 /**
  * Draw an image to the main canvas of the p5js sketch
@@ -1306,7 +1306,7 @@ declare function radians(degrees: number): number;
 //   param "horizAlign" has invalid type: Number/Constant
 //   param "vertAlign" has invalid type: Number/Constant
 //
-// declare function textAlign(horizAlign: Number/Constant, vertAlign: Number/Constant): number;
+declare function textAlign(horizAlign: string): number;
 
 /**
  * Sets/gets the spacing, in pixels, between lines of text.
@@ -1334,7 +1334,7 @@ declare function textWidth(theText: string): number;
 /**
  * Draws text to the screen.
  */
-declare function text(str: string, x: number, y: number, x2: number, y2: number): any;
+declare function text(str: string, x: number, y: number): any;
 
 /**
  * Sets the current font that will be drawn with the text() function.
