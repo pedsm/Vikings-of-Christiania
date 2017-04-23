@@ -19,6 +19,7 @@ class Boat {
 		this.x  = x
 		this.y  = y
 		this.size = 128
+		this.speed = 0
 		this.direction = 0
 		this.velX = 0
 		this.velY = 0
@@ -27,8 +28,8 @@ class Boat {
 	updateCoords(){
 		var time_diff = Date.now() - this.lastFrame;
 		this.lastFrame = Date.now();
-		var d_y = time_diff*playerSpeed * Math.cos(this.direction)
-		var d_x = time_diff*playerSpeed * Math.sin(this.direction)*-1
+		var d_y = time_diff*this.speed * Math.cos(this.direction)
+		var d_x = time_diff*this.speed * Math.sin(this.direction)*-1
 
 		this.x += d_x;
 		this.y += d_y;
@@ -201,7 +202,7 @@ function draw(){
 	if(keyIsDown(LEFT_ARROW) || keyIsDown(65)) { Player.direction -= 0.04 }
 	if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ Player.direction += 0.04 }
 	if(keyIsDown(UP_ARROW) || keyIsDown(87)) {
-		Player.speed = 5
+		Player.speed = playerSpeed
 	}
 	else {
 		Player.speed = 0;
