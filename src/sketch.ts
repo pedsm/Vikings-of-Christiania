@@ -2,6 +2,7 @@
 
 class Boat {
 	name:string;
+	id: string; // Player id;
 	x:number
 	y:number;
 	speedX:number;
@@ -12,7 +13,8 @@ class Boat {
 	velX:number;
 	velY:number;
 	lastFrame:number;
-	constructor(name:string,x:number,y:number){
+	constructor(id: string, name:string,x:number,y:number){
+		this.id = id;
 		this.name = name
 		this.x  = x
 		this.y  = y
@@ -23,12 +25,14 @@ class Boat {
 		this.velY = 0
 		this.lastFrame = Date.now()
 	}
-	updateSpeed(){
-		var mov = Date.now() - this.lastFrame;
-		this.lastFrame = mov + this.lastFrame;
-		this.velY = mov/10*this.speed * Math.cos(this.direction)
-		this.velX = mov/10*this.speed * Math.sin(this.direction)*-1
-		this.speed = 0
+	updateCoords(){
+		var time_diff = Date.now() - this.lastFrame;
+		this.lastFrame = Date.now();
+		var d_y = time_diff/10*this.speed * Math.cos(this.direction)
+		var d_x = time_diff/10*this.speed * Math.sin(this.direction)*-1
+
+		this.x += d_x;
+		this.y += d_y;
 	}
 	draw(){
 		var oldX = this.x
@@ -44,10 +48,7 @@ class Boat {
 		image(assets[2],0,0)
 		pop()
 
-		this.updateSpeed()
-
-		this.x += this.velX
-		this.y += this.velY
+		this.updateCoords()
 
 		if (this.x > 3925)
 			this.x = 3925
@@ -76,7 +77,7 @@ var projectile = [];
 var playerFont;
 var mapsize = 30;
 // var Player = new Boat("",(Math.random()*6000)-3000,(Math.random()*6000)-3000);
-var Player = new Boat("",100,100);
+var Player = new Boat("myID","",100,100);
 
 
 function setup(){
@@ -113,25 +114,39 @@ function draw(){
 
 	//Print all boats
 	Player.draw()
-	gameState.players.map((thing,i)=>{
-		if(boats.length == i)
-		{
-			boats.push(new Boat(thing.name,thing.x,thing.y))
+	gameState.players.map((gs_player)=>{
+		// The current boat we are updating
+		var boat = boats.filter((b) => b.id == gs_player.id)[0]
+		var threshold = 48;
+
+		// Create a new boat if none exists
+		if(!boat) {
+			console.log("New player has no boat. Adding..")
+			boats.push(new Boat(gs_player.id, gs_player.name,gs_player.x,gs_player.y))
+			return;
 		}
-		if(abs(thing.x - boats[i].x) > 10 || abs(thing.y - boats[i].y)>10 || isNaN(boats[i].x)|| isNaN(boats[i].x))
-		{
-			boats[i].x = thing.x
-			boats[i].y = thing.y
-			console.log("Synced")
+
+		// Update the old boat
+		else if(abs(gs_player.x - boat.x) > threshold || abs(gs_player.y - boat.y)>threshold) {
+			console.log(`d_x: ${gs_player.x},${boat.x}, d_y: ${gs_player.y} = ${boat.y}`)
+			boat.x = gs_player.x
+			boat.y = gs_player.y
+			console.log(`Player ${boat.name} became out of sync. Synced`);
 		}
-		boats[i].direction  = thing.direction
-		boats[i].name  = thing.name
-		boats[i].speed = thing.speed
+
+		boat.direction  = gs_player.direction
+		boat.name  = gs_player.name
+		boat.speed = gs_player.speed
 	})
 	boats.map((boat)=>{
 		boat.draw();
 	})
 	if(keyIsDown(LEFT_ARROW) || keyIsDown(65)) { Player.direction -= 0.04 }
 	if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ Player.direction += 0.04 }
-	if(keyIsDown(UP_ARROW) || keyIsDown(87))   { Player.speed = 5}
+	if(keyIsDown(UP_ARROW) || keyIsDown(87)) {
+		Player.speed = 5
+	}
+	else {
+		Player.speed = 0;
+	}
 }
