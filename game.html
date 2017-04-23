@@ -33,7 +33,7 @@
 				form.onsubmit()
 			}
 
-			// Fire a bullet
+			// Helper function for client 'fire' its cannons.
 			fire = ()=>{ socket.emit('fire'); }
 
             form.onsubmit = function () {
@@ -44,7 +44,7 @@
 				}
                 Player.name = playername;
 
-                socket.emit('join_game', {name: playername,spec:spectator});
+                socket.emit('join_game', {name: playername, isSpectator:spectator});
                 console.log("Joining game!");
 
                 var last_x = Number.MIN_VALUE;
