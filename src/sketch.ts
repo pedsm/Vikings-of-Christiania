@@ -243,7 +243,7 @@ function draw(){
 			}
 			return boat
 		})
-		relPlay.map((boat:any)=>{
+		relPlay.map((boat:Boat)=>{
 			fill(100,0,0)
 			if(boat.score == maxScore)
 				fill(0,0,100)
