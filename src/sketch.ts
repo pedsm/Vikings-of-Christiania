@@ -223,7 +223,7 @@ function draw(){
 		ellipse(0,0,100,100)
 		fill(50,0,0)
 		ellipse(0,0,5,5)
-		var maxScore:number
+		var maxScore:number = 0
 		if(boats.length != 0 )
 		{
 			maxScore = boats.reduce((a:Boat,b:Boat)=>{
@@ -236,19 +236,21 @@ function draw(){
 			})
 		}
 		var relPlay = boats.map((boat:Boat,i)=>{
-			var tmp = new Boat(boat.id, boat.name, boat.x,boat.y);
+			var tmp = new Boat(boat.id, boat.name, 0,0);
 			tmp.x = (boat.x - Player.x)/35
 			tmp.y = (boat.y - Player.y)/35
-			var v:any = createVector(boat.x,boat.y)
-			if(v.mag()>100)
-			{
+			tmp.score = boat.score;
+			var v:any = createVector(tmp.x,tmp.y)
+			if(v.mag()>100) {
 				v.normalize()
 				v.mult(100)
 				tmp.x = v.x
 				tmp.y = v.y
 			}
-			return boat
+			return tmp
 		})
+		if(relPlay.length > 0)
+			console.log(relPlay[0].x)
 		relPlay.map((boat:Boat)=>{
 			fill(100,0,0)
 			if(boat.score == maxScore)
