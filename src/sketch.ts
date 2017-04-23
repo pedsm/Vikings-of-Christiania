@@ -136,7 +136,6 @@ function setup(){
 	assets.push(loadImage('assets/tile_53.png'))
 	assets.push(loadImage('assets/tile_52.png'))
 	assets.push(loadImage('assets/tile_36.png'))
-	shootBullet(100,100,PI/2)
 }
 
 function draw(){

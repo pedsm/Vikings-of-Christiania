@@ -4,6 +4,8 @@ import * as express from 'express';
 import * as http from 'http';
 import * as socketio from 'socket.io';
 import {Player, Projectile} from './player';
+import {consts} from './consts';
+
 
 var verbose = false;
 var gameport = 4242;
@@ -31,6 +33,9 @@ app.use(express.static('static'))
 
 // Handle a socket connection
 io.on('connection', function(socket) {
+
+    // Send the user the consts
+    socket.emit('consts', consts)
 
     socket.on('join_game', function(message) {
         // Join the main server;
@@ -62,6 +67,12 @@ io.on('connection', function(socket) {
         });
     })
 
+    socket.on('fire', () => {
+        console.log("Player fired :)")
+        var p = players.filter((pl) => pl.id == socket.id)[0];
+        shootProjectile(p);
+    });
+
     socket.on('disconnect', function() {
         players = players.filter((p) => p.id != socket.id);
         io.in('default_room').emit('gamestate', {
@@ -72,12 +83,17 @@ io.on('connection', function(socket) {
 })
 
 function shootProjectile (player) {
-    let projectile1 = new Projectile(player.name);
-    let projectile2 = new Projectile(player.name);
-    projectile1.direction = player.direction - ((3*Math.PI) / 4);
-    projectile2.direction = player.direction - (Math.PI / 4);
+    var projectile1 = new Projectile(player.id, player.x, player.y, -player.direction - 3*Math.PI/4);
+    var projectile2 = new Projectile(player.id, player.x, player.y, -player.direction - Math.PI/4);
+
     projectiles.push(projectile1)
     projectiles.push(projectile2)
+
+    // Announce new projectile to the room
+    io.in('default_room').emit('gamestate', {
+        type: 'new_projectiles',
+        data:  [projectile1, projectile2]
+    });
 }
 
 function kill(player){
@@ -86,18 +102,37 @@ function kill(player){
     player.y = 0;
 }
 
-// Send the gamestate to everyone
+var last_update_time = Date.now();
 setInterval(function() {
-    //collision with projectiles
-    // function detectCollision(player){
-    //     projectiles.map((bullet)=>{
-    //         if(bullet.x > player.x-64 && bullet.y < player.x+64 &&
-    //            bullet.y > player.y-64 && bullet.y < player.y+64)
-    //         {
-    //             player.kill;
-    //         }
-    //     })
-    // }
-    // players.forEach(detectCollision)
+    // Update the positions of the projectile
+    var time_diff = Date.now() - last_update_time;
+    last_update_time = Date.now();
+
+    // Update projectile positions
+    projectiles.forEach((p) => {
+        p.x += time_diff * consts.bulletSpeed * Math.cos(p.direction);
+        p.y += time_diff * consts.bulletSpeed * Math.sin(p.direction);
+    });
+
+    // Check for collisions between players and projectiles
+    // TODO make this better by doing dynamic hitbox based on direction of
+    // ship. Remember that the ship is not square and can face any
+    // direction ;)
+    players.forEach((player) => {
+        projectiles.forEach((proj) => {
+            if (Math.abs(player.x - proj.x) < 50
+            &&  Math.abs(player.y - proj.y) < 50
+            &&  player.id != proj.source) { // Check that it's not the player's own projectile
+                // Player and projectile in same area
+                console.log("Player has been hit");
+            }
+        });
+    });
+
+    // Filter out the projectiles that have left the map
+    var mapSize = 128 * 60;
+    projectiles = projectiles.filter((p) => {
+        return Math.abs(p.x) > mapSize || Math.abs(p.y) < mapSize;
+    })
 
 }, updateInterval);
