@@ -80,13 +80,13 @@ class Projectile {
 		this.lastUp = Date.now()
 	}
 	move(){
-		var time_diff = Date.now() - this.lastUp:
-		this.speedX = time_diff*this.speed * Math.cos(this.dir):
-		this.speedY = time_diff*this.speed * Math.sin(this.dir)*-1;
+		var time_diff = Date.now() - this.lastUp
+		this.speedX = time_diff*this.speed * Math.cos(this.dir)
+		this.speedY = time_diff*this.speed * Math.sin(this.dir)*-1
 		this.lastUp = Date.now();
 
-		this.x += this.speedX
-		this.y += this.speedY
+		this.x += this.speedX;
+		this.y += this.speedY;
 		push()
 		translate(this.x,this.y)
 		imageMode(CENTER)
