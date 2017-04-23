@@ -30,7 +30,7 @@
 			function spec(){
 				spectator = true
 				console.log(spectator)
-				form.submit()
+				form.onsubmit()
 			}
 
 			// Fire a bullet
@@ -38,6 +38,10 @@
 
             form.onsubmit = function () {
                 var playername = document.getElementById("nameInput").value;
+				if(spectator)
+				{
+					playername = "Spec"
+				}
                 Player.name = playername;
                 socket.emit('join_game', {name: playername,spec:spectator});
                 console.log("Joining game!");

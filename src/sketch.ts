@@ -227,12 +227,13 @@ function draw(){
 		boat.hp = gs_player.hp
 		boat.score = gs_player.score;
 	})
-	boats.map((boat:Boat)=>{ boat.draw(); })
+	boats.filter((thing)=>{return thing.name != "Spec"}).map((boat:Boat)=>{ boat.draw(); })
 	bullets.map((bullet:Projectile)=>{ bullet.move() ; })
 	if(!spectator)
 	{
 		Player.draw()
 	}
+	else{Player.name = "Spec"}
 	pop()
 	//Print all boats
 	//HUD
@@ -257,7 +258,7 @@ function draw(){
 				}
 			})
 		}
-		var relPlay = boats.map((boat:Boat,i)=>{
+		var relPlay = boats.filter((thing)=>{return thing.name != "Spec"}).map((boat:Boat,i)=>{
 			var tmp = new Boat(boat.id, boat.name, 0,0);
 			tmp.x = (boat.x - Player.x)/35
 			tmp.y = (boat.y - Player.y)/35
