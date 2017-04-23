@@ -68,13 +68,15 @@
                     // Update an other players gamestate
                     case "player_update":
                         var rm_player = remoteGamestate.data; // Remote player
-                        // Don't update if it is our gamestate
+                        var gs_player = gameState.players.filter(
+                            (p) => p.id == remoteGamestate.data.id)[0];
+
+                        // Don't update if it is our gamestate except the hp
                         if (rm_player.id == socket.id) {
+                            Player.hp = rm_player.hp;
                             return;
                         }
 
-                        var gs_player = gameState.players.filter(
-                            (p) => p.id == remoteGamestate.data.id)[0];
                         if (!gs_player) {
                             // Create player
                             gameState.players.push(rm_player);
