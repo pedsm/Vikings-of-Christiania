@@ -200,6 +200,33 @@ function draw(){
 
 	pop()
 	//Print all boats
+	//HUD
+	push()
+	translate(70,70)
+	noStroke()
+	fill('rgba(50%,50%,50%,0.5)')
+	ellipse(0,0,100,100)
+	fill(50,0,0)
+	ellipse(0,0,5,5)
+	var relPlay = boats.map((boat:Boat)=>{
+		boat.x = (boat.x - Player.x)/35
+		boat.y = (boat.y - Player.y)/35
+		var v:any = createVector(boat.x,boat.y)
+		if(v.mag()>100)
+		{
+			v.normalize()
+			v.mult(100)
+			boat.x = v.x
+			boat.y = v.y
+		}
+		return boat
+	})
+	relPlay.map((boat:any)=>{
+		fill(100,0,0)
+		ellipse(boat.x/2,boat.y/2,5,5)
+	})
+	pop()
+	// ellipse(70,70,100,100)
 
 
 	if(keyIsDown(LEFT_ARROW) || keyIsDown(65)) { Player.direction -= 0.04 }
