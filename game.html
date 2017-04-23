@@ -21,12 +21,19 @@
         <script src="sketch.js"/></script>
         <script>
             var socket = io();
+			var cur;
             var form = document.getElementById("login-form");
             form.onsubmit = function () {
                 var playername = document.getElementById("nameInput").value;
                 Player.name = playername;
                 socket.emit('join_game', {name: playername});
                 console.log("Joining game!");
+
+                setInterval(() => {
+					// console.log(Date.now() - cur)
+					cur = Date.now()
+                    socket.emit('update_gamestate', Player);
+                }, 1000/30)
 
                 // Remove form
                 document.getElementsByClassName("container")[0].remove();
@@ -39,9 +46,6 @@
                 remoteGamestate.players = remoteGamestate.players.filter((p) => p.id != socket.id);
                 gameState = remoteGamestate;
 
-                setInterval(() => {
-                    socket.emit('update_gamestate', Player);
-                }, 1000/30)
             })
 
         </script>
