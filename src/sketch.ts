@@ -231,15 +231,16 @@ function draw(){
 			})
 		}
 		var relPlay = boats.map((boat:Boat,i)=>{
-			boat.x = (boat.x - Player.x)/35
-			boat.y = (boat.y - Player.y)/35
+			var tmp = new Boat(boat.id, boat.name, boat.x,boat.y);
+			tmp.x = (boat.x - Player.x)/35
+			tmp.y = (boat.y - Player.y)/35
 			var v:any = createVector(boat.x,boat.y)
 			if(v.mag()>100)
 			{
 				v.normalize()
 				v.mult(100)
-				boat.x = v.x
-				boat.y = v.y
+				tmp.x = v.x
+				tmp.y = v.y
 			}
 			return boat
 		})
