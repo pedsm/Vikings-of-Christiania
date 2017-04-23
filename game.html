@@ -56,7 +56,7 @@
 					cur = Date.now()
 
                     // Only update if player position changes
-                    if (last_y != Player.y || last_x != Player.x || last_direction != Player.speed || last_speed) {
+                    if (last_y != Player.y || last_x != Player.x || last_direction != Player.direction || last_speed != Player.speed) {
                         socket.emit('update_gamestate', Player);
                         last_y = Player.y;
                         last_x = Player.x;
@@ -84,7 +84,7 @@
                     chathistory.scrollTop = chathistory.scrollHeight;
                 })
 
-
+                // Allow p5.js to continue
                 loop();
                 return false;
             }
