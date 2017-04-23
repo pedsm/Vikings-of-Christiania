@@ -1,3 +1,4 @@
+import {consts} from './consts';
 
 export class Player {
     name: string;
@@ -33,8 +34,8 @@ export class Projectile {
         this.y = y;
         this.direction = direction;
     }
-    updateProjectile(time: number) {
-        this.x += this.speed * Math.cos(this.direction) * time;
-        this.y += this.speed * Math.sin(this.direction) * time;
+    updateProjectile(time_diff: number) {
+        this.x += time_diff * consts.bulletSpeed * Math.cos(this.direction);
+        this.y += time_diff * consts.bulletSpeed * Math.sin(this.direction);
     }
 }

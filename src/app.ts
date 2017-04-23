@@ -6,7 +6,6 @@ import * as socketio from 'socket.io';
 import {Player, Projectile} from './player';
 import {consts} from './consts';
 
-
 var verbose = false;
 var gameport = 4242;
 var app = express();
@@ -21,35 +20,51 @@ console.log("Vikings of Christiana running..");
 server.listen(gameport);
 console.log(':: Listening on port ' + gameport);
 
-// Serve the root file
+// Serve the index file
 app.get('/', function(req, res) {
     res.sendFile('game.html', { root: __dirname + "/../"});
 });
 
-// Serve static files (according to pedro?)
+// Serve static files on the root.
 app.use(express.static('lib'))
 app.use(express.static('comp'))
 app.use(express.static('static'))
 
-// Handle a socket connection
+var getPlayerById = (id: string) => {
+    var p = players.filter((pl) => pl.id == id);
+    return p.length > 0 ? p[0] : null;
+}
+
+// Wait for a websockets connection
 io.on('connection', function(socket) {
 
-    // Send the user the consts
+    // Send game constants to the user
     socket.emit('consts', consts)
 
+    // Broadcast the player's chat messages to the room
     socket.on('chat', function(message) {
-        var p = players.filter((pl) => pl.id == socket.id)[0];
-        io.in('default_room').emit('chat', {'type': message, 'contents': `<b>${p.name}</b>: ${message}`})
-    })
+        var p = getPlayerById(socket.id);
 
-    socket.on('join_game', function(message) {
-        // Join the main server;
+        if (p) {
+            io.in('default_room').emit('chat',
+                {
+                    'type': message,
+                    'contents': `<b>${p.name}</b>: ${message}`
+                })
+        }
+        // TODO else tell the spectator that they can't message
+    });
+
+    // Wait for the user to request to join a game
+    socket.on('join_game', function(player_details) {
+
+        // Add them to the default room
         socket.join("default_room")
+        console.log(`:: Player ${player_details.name} has joined the game`)
 
-        console.log(`:: Player ${message.name} has joined the game`)
-
-        if (!message.spectator) {
-            var player: Player = new Player(socket.id, message.name);
+        // If the user is a normal player then add them to the game
+        if (!player_details.isSpectator) {
+            var player: Player = new Player(socket.id, player_details.name);
             players.push(player);
 
             io.in('default_room').emit('chat',
@@ -69,75 +84,74 @@ io.on('connection', function(socket) {
 
     })
 
+    // When a player sends their gamestate
     socket.on('update_gamestate', (remotePlayer) => {
-        var p = players.filter((pl) => pl.id == socket.id)[0];
+        var p = getPlayerById(socket.id)
+        if (!p || !remotePlayer) { return; }
 
-        if (!remotePlayer || !p) {
-            return;
-        }
+        // Any of the attributes may be updated independently
+        p.x = remotePlayer.x || p.x;
+        p.y = remotePlayer.y || p.y;
+		p.speed = remotePlayer.speed || p.speed;
+        p.direction = remotePlayer.direction || p.direction;
 
-        p.x = remotePlayer.x;
-        p.y = remotePlayer.y;
-		p.speed = remotePlayer.speed;
-        p.direction = remotePlayer.direction;
-
+        // Broadcast the players new details to the room
         io.in('default_room').emit('gamestate', {
             type: 'player_update',
             data:  p
         });
     })
 
-
+    // When the user disconnects
     socket.on('disconnect', function() {
-        var player_obj = players.filter((p)=>p.id==socket.id)[0];
-        if (!player_obj) {
-            return;
-        }
-        var player_name = player_obj.name;
+        var player = getPlayerById(socket.id);
+        if (!player) { return; }
+
+        // Remove player from the gamestate
         players = players.filter((p) => p.id != socket.id);
 
-
-        // Tell clients
+        // Broadcast to clients the the player has disconnected
         io.in('default_room').emit('gamestate', {
             type: 'player_disconnect',
             data:  socket.id
         });
 
-        // Tell the chat
+        // Broadcast to the chatroom that the player has left
         io.in('default_room').emit('chat',
-            { 'type': 'player_join',
-            'contents': `<span class="player_leave"><b>${player_name}</b> has left the game :(`});
+            {
+                'type': 'player_join',
+                'contents': `<span class="player_leave"><b>${player.name}</b> has left the game :(`
+            });
     })
 })
 
+// Shoot a projectile for the player
 function shootProjectile (player) {
     if(player == undefined) {
         return
     }
     var projectile1 = new Projectile(player.id, player.x, player.y, -player.direction - 3*Math.PI/4);
     var projectile2 = new Projectile(player.id, player.x, player.y, -player.direction - Math.PI/4);
+    projectile1.updateProjectile(0.4);
+    projectile2.updateProjectile(0.4);
 
     projectiles.push(projectile1)
     projectiles.push(projectile2)
 
-    // Announce new projectile to the room
+    // Broadcast projectiles to the room
     io.in('default_room').emit('gamestate', {
         type: 'new_projectiles',
         data:  [projectile1, projectile2]
     });
 
-    // Handles some weird ass bug where server and client have
+    // Handles some weird case where server and client have
     // a different sense of direction
     projectile1.direction+=Math.PI;
     projectile2.direction+=Math.PI;
 }
 
-function kill(player){
-    console.log("You got fragged m8. \n Need more mountain dew and doritos in your diet.");
-    player.x = 0;
-    player.y = 0;
-}
-
+// Update the state of the game on the server periodically.
+// Check for collisions and clean up missing projectiles etc.
 var last_update_time = Date.now();
 setInterval(function() {
     // Update the positions of the projectile
@@ -146,10 +160,8 @@ setInterval(function() {
 
     // Update projectile positions
     projectiles.forEach((p) => {
-        p.x += time_diff * consts.bulletSpeed * Math.cos(p.direction);
-        p.y += time_diff * consts.bulletSpeed * Math.sin(p.direction);
+        p.updateProjectile(time_diff);
     });
-
 
     // Check for collisions between players and projectiles
     // TODO make this better by doing dynamic hitbox based on direction of
@@ -157,54 +169,51 @@ setInterval(function() {
     // direction ;)
     players.forEach((player) => {
         projectiles.forEach((proj) => {
+
+            // If a collision...
             if (Math.abs(player.x - proj.x) < 100
             &&  Math.abs(player.y - proj.y) < 100
             &&  player.id != proj.source) { // Check that it's not the player's own projectile
 
-                // Remove projectile
-                // TODO broadcast in player death
-                projectiles = projectiles.filter((p)=>p!=proj);
+			// Remove projectile
+			// TODO broadcast in player death
+			projectiles = projectiles.filter((p)=>p!=proj);
 
-                // Player and projectile are in the same area so we'll subtract health.
-                player.hp -= consts.bulletDamage;
+			// Player and projectile are in the same area so we'll subtract health.
+			player.hp -= consts.bulletDamage;
 
-                if (player.hp <= 0) {
-                    console.log(`Player ${player.name} has been killed`);
-                    players = players.filter((p)=>p.id!=player.id);
-                    io.in('default_room').emit('gamestate',
-                    {
-                        'type': 'player_killed',
-                        'data': {
-                            'player': player,
-                            'projectile': proj
-                        }
-                    });
+			// If a player dies
+			if (player.hp <= 0) {
+				console.log(`Player ${player.name} has been killed`);
+				players = players.filter((p)=>p.id!=player.id);
+				io.in('default_room').emit('gamestate',
+				{
+					'type': 'player_killed',
+					'data': {
+						'player': player,
+						'projectile': proj
+					}
+				});
 
-                    // Add points to the killer
-                    var killer = players.filter((p)=>p.id==proj.source)[0];
-                    if (killer) {
-                        killer.score += 100;
-                    }
+				// Add points to the killer
+				var killer = players.filter((p)=>p.id==proj.source)[0];
+				if (killer) {
+					killer.score += 100;
+				}
 
-                    io.in('default_room').emit('chat',
-                        { 'type': 'player_kill',
-                        'contents': `<span class="player_kill"><b>${player.name}</b> has been killed by ${killer.name}</span>` })
+				io.in('default_room').emit('chat',
+				{ 'type': 'player_kill',
+				'contents': `<span class="player_kill"><b>${player.name}</b> has been killed by ${killer.name}</span>` })
 
-                } else {
-                    io.in('default_room').emit('gamestate', {
-                        type: 'player_update',
-                        data:  player
-                    });
-                }
-
-                console.log("Player has been hit");
-            }
+			} else {
+				io.in('default_room').emit('gamestate', {
+					type: 'player_update',
+					data:  player
+				});
+			}
+		}
         });
     });
-
-    if (projectiles.length > 0) {
-        //console.log(`${projectiles[0].x}, ${projectiles[0].y}`);
-    }
 
     // Filter out the projectiles that have left the map
     var mapSize = 128 * 60;

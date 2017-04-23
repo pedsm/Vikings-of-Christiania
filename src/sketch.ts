@@ -233,7 +233,7 @@ function draw(){
 	if(!spectator)
 	{
 		Player.draw()
-	}
+}
 	else{Player.name = "Spec"}
 	pop()
 	//Print all boats
@@ -273,8 +273,7 @@ function draw(){
 			}
 			return tmp
 		})
-		if(relPlay.length > 0)
-			console.log(relPlay[0].x)
+
 		relPlay.map((boat:Boat)=>{
 			fill(100,0,0)
 			if(boat.score == maxScore)
