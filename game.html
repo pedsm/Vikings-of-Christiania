@@ -15,6 +15,7 @@
                 <input id="nameInput" type="text" placeholder="Enter Name" name="name">
                 <div>
                     <button type="submit">Play!</button>
+                    <button type="button" onclick="spec()">Spectate</button>
                 </div>
             </form>
         </div>
@@ -23,6 +24,11 @@
             var socket = io();
 			var cur;
             var form = document.getElementById("login-form");
+			function spec(){
+				spectator = true
+				console.log(spectator)
+				form.submit()
+			}
 
 			// Fire a bullet
 			fire = ()=>{ socket.emit('fire'); }
@@ -31,7 +37,7 @@
                 var playername = document.getElementById("nameInput").value || "Biene";
                 Player.name = playername;
 
-                socket.emit('join_game', {name: playername});
+                socket.emit('join_game', {name: playername,spec:spectator});
                 console.log("Joining game!");
 
                 var last_x = Number.MIN_VALUE;
@@ -50,10 +56,12 @@
                 }, 1000/60)
 
                 // Remove login form
-                document.getElementsByClassName("container")[0].remove();
+                    document.getElementsByClassName("container")[0].remove();
 
                 // show chatbox
-                document.getElementById("chat-box").style.visibility = 'visible';
+                if (!spectator) {
+                    document.getElementById("chat-box").style.visibility = 'visible';
+                }
 
                 // Connect the chatbox
                 socket.on('chat', function(message) {

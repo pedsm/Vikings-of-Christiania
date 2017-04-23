@@ -47,22 +47,26 @@ io.on('connection', function(socket) {
         socket.join("default_room")
 
         console.log(`:: Player ${message.name} has joined the game`)
-        var player: Player = new Player(socket.id, message.name);
-        players.push(player);
+
+        if (!message.spectator) {
+            var player: Player = new Player(socket.id, message.name);
+            players.push(player);
+
+            io.in('default_room').emit('chat',
+                { 'type': 'player_join',
+                'contents': `<span class="player_join"><b>${player.name}</b> has joined the game</span>` }
+            );
+
+            socket.on('fire', () => {
+                var p = players.filter((pl) => pl.id == socket.id)[0];
+                console.log(`Player ${p.name} fired :)`)
+                shootProjectile(p);
+            });
+        }
 
         // Send current full gamestate
         socket.emit('gamestate', {type: 'full_update', data: players})
 
-        io.in('default_room').emit('chat',
-            { 'type': 'player_join',
-            'contents': `<span class="player_join"><b>${player.name}</b> has joined the game</span>` }
-        );
-
-        socket.on('fire', () => {
-            var p = players.filter((pl) => pl.id == socket.id)[0];
-            console.log(`Player ${p.name} fired :)`)
-            shootProjectile(p);
-        });
     })
 
     socket.on('update_gamestate', (remotePlayer) => {
@@ -85,8 +89,13 @@ io.on('connection', function(socket) {
 
 
     socket.on('disconnect', function() {
-        var player_name = players.filter((p)=>p.id==socket.id)[0].name;
+        var player_obj = players.filter((p)=>p.id==socket.id)[0];
+        if (!player_obj) {
+            return;
+        }
+        var player_name = player_obj.name;
         players = players.filter((p) => p.id != socket.id);
+
 
         // Tell clients
         io.in('default_room').emit('gamestate', {
