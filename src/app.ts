@@ -78,8 +78,9 @@ io.on('connection', function(socket) {
 })
 
 function shootProjectile (player) {
-    var projectile1 = new Projectile(player.id, player.x, player.y, player.direction + Math.PI/4);
+    var projectile1 = new Projectile(player.id, player.x, player.y, player.direction - 3*Math.PI/4);
     var projectile2 = new Projectile(player.id, player.x, player.y, player.direction - Math.PI/4);
+
     projectiles.push(projectile1)
     projectiles.push(projectile2)
 

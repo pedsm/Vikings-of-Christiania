@@ -132,7 +132,6 @@ function setup(){
 	assets.push(loadImage('assets/tile_53.png'))
 	assets.push(loadImage('assets/tile_52.png'))
 	assets.push(loadImage('assets/tile_36.png'))
-	bullets.push(new Projectile(100,100,0))
 }
 
 function draw(){
