@@ -13,7 +13,7 @@ var app = express();
 var server = http.createServer(app);
 let players: Array<Player> = [];
 let projectiles: Array<Projectile> = [];
-let updateInterval: number = 1000/30; // Number of ms between updates.
+let updateInterval: number = 1000/60; // Number of ms between updates.
 var io = socketio(server);
 
 console.log("Vikings of Christiana running..");
@@ -94,6 +94,11 @@ function shootProjectile (player) {
         type: 'new_projectiles',
         data:  [projectile1, projectile2]
     });
+
+    // Handles some weird ass bug where server and client have
+    // a different sense of direction
+    projectile1.direction+=Math.PI;
+    projectile2.direction+=Math.PI;
 }
 
 function kill(player){
@@ -120,14 +125,18 @@ setInterval(function() {
     // direction ;)
     players.forEach((player) => {
         projectiles.forEach((proj) => {
-            if (Math.abs(player.x - proj.x) < 50
-            &&  Math.abs(player.y - proj.y) < 50
+            if (Math.abs(player.x - proj.x) < 100
+            &&  Math.abs(player.y - proj.y) < 100
             &&  player.id != proj.source) { // Check that it's not the player's own projectile
                 // Player and projectile in same area
                 console.log("Player has been hit");
             }
         });
     });
+
+    if (projectiles.length > 0) {
+        //console.log(`${projectiles[0].x}, ${projectiles[0].y}`);
+    }
 
     // Filter out the projectiles that have left the map
     var mapSize = 128 * 60;
