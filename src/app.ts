@@ -4,6 +4,8 @@ import * as express from 'express';
 import * as http from 'http';
 import * as socketio from 'socket.io';
 import {Player, Projectile} from './player';
+import {consts} from './consts';
+
 
 var verbose = false;
 var gameport = 4242;
@@ -31,6 +33,9 @@ app.use(express.static('static'))
 
 // Handle a socket connection
 io.on('connection', function(socket) {
+
+    // Send the user the consts
+    socket.emit('consts', consts)
 
     socket.on('join_game', function(message) {
         // Join the main server;
@@ -105,8 +110,8 @@ setInterval(function() {
 
     // Update projectile positions
     projectiles.forEach((p) => {
-        p.x += time_diff * 1.0 * Math.cos(p.direction);
-        p.y += time_diff * 1.0 * Math.sin(p.direction);
+        p.x += time_diff * consts.bulletSpeed * Math.cos(p.direction);
+        p.y += time_diff * consts.bulletSpeed * Math.sin(p.direction);
     });
 
     // Check for collisions between players and projectiles
