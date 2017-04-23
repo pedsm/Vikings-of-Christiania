@@ -141,7 +141,8 @@ function setup(){
 
 function draw(){
 	push()
-	translate(width/2-Player.x,height/2-Player.y)
+	scale(0.5)
+	translate(width-Player.x,height-Player.y)
 	imageMode(CENTER)
 	if(frameCount > 10)
 		background(46, 204, 113)
