@@ -59,6 +59,7 @@ class Boat {
 		if (this.y < -3700)
 			this.y = -3700
 */
+mapsize--
 if (this.x >= mapsize*128)
 	this.x = mapsize*128
 if (this.x <= mapsize*-128)
@@ -68,6 +69,7 @@ if (this.y >= mapsize*128)
 if (this.y <= mapsize*-128)
 	this.y = mapsize*-128
 			console.log("x:"+this.x+"\ny:" this.y)
+mapsize++
 	}
 }
 
@@ -119,6 +121,8 @@ function draw(){
 	push()
 	translate(width/2-Player.x,height/2-Player.y)
 	imageMode(CENTER)
+	if(frameCount > 10)
+		background(46, 204, 113)
 	for(var i = mapsize*-1; i <= mapsize; i++){
 		for(var j = mapsize*-1; j <= mapsize; j++){
 			image(assets[0],128*j, 128*i)
