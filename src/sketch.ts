@@ -76,16 +76,21 @@ class Projectile {
 		this.x = x
 		this.y = y
 		this.dir = dir
-		this.speed = 10
+		this.speed = 0.005
 		this.lastUp = Date.now()
 	}
 	move(){
 		var time_diff = Date.now() - this.lastUp
-		this.speedX = time_diff/10*this.speed * Math.cos(this.dir)
-		this.speedY = time_diff/10*this.speed * Math.sin(this.dir)*-1
+		this.speedX = time_diff*this.speed * Math.cos(this.dir)
+		this.speedY = time_diff*this.speed * Math.sin(this.dir)*-1
 
 		this.x += this.speedX
 		this.y += this.speedY
+		push()
+		translate(this.x,this.y)
+		imageMode(CENTER)
+		image(assets[7],0,0)
+		pop()
 	}
 }
 let CENTER = "center"
@@ -95,7 +100,7 @@ let UP_ARROW = 38
 
 var boats = [];
 var assets = [];
-var bullet = [];
+var bullets = [];
 var gameState = {players:[],projectile:[]}
 var projectile = [];
 var playerFont;
@@ -127,6 +132,7 @@ function setup(){
 	assets.push(loadImage('assets/tile_53.png'))
 	assets.push(loadImage('assets/tile_52.png'))
 	assets.push(loadImage('assets/tile_36.png'))
+	bullets.push(new Projectile(100,100,0))
 }
 
 function draw(){
@@ -181,9 +187,8 @@ function draw(){
 		boat.name  = gs_player.name
 		boat.speed = gs_player.speed
 	})
-	boats.map((boat)=>{
-		boat.draw();
-	})
+	boats.map((boat:Boat)=>{ boat.draw(); })
+	bullets.map((bullet:Projectile)=>{ bullet.move() ; })
 	Player.draw()
 
 	pop()
@@ -209,4 +214,8 @@ function keyPressed()
 		fire()
 		lastShot =  Date.now()
 	}
+}
+function shootBullet(x,y,dir)
+{
+	bullets.push(new Projectile(x,y,dir))
 }
