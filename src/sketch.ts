@@ -176,6 +176,11 @@ function draw(){
 	fill(46, 204, 113)
 	noStroke()
 	rect(128*(mapsize+0.5),-128*(mapsize+0.5),128,128*(mapsize+0.5)*2)
+	
+	// Remove dead boats
+	boats = boats.filter((b)=> {
+		return gameState.players.reduce((x,y)=>{return x.id==b.id || y.id },false);
+	})
 
 	//Print all boats
 	gameState.players.map((gs_player)=>{
