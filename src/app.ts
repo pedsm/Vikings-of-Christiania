@@ -111,6 +111,9 @@ io.on('connection', function(socket) {
 })
 
 function shootProjectile (player) {
+    if(player == undefined) {
+        return
+    }
     var projectile1 = new Projectile(player.id, player.x, player.y, -player.direction - 3*Math.PI/4);
     var projectile2 = new Projectile(player.id, player.x, player.y, -player.direction - Math.PI/4);
 
@@ -164,7 +167,7 @@ setInterval(function() {
 
                 // Player and projectile are in the same area so we'll subtract health.
                 player.hp -= consts.bulletDamage;
-                
+
                 if (player.hp <= 0) {
                     console.log(`Player ${player.name} has been killed`);
                     players = players.filter((p)=>p.id!=player.id);
@@ -185,11 +188,9 @@ setInterval(function() {
 
                     io.in('default_room').emit('chat',
                         { 'type': 'player_kill',
-                        'contents': `<span class="player_kill"><b>${player.name}</b> has been killed by ${killer.name}</span>` }
+                        'contents': `<span class="player_kill"><b>${player.name}</b> has been killed by ${killer.name}</span>` })
 
-                }
-
-                else {
+                } else {
                     io.in('default_room').emit('gamestate', {
                         type: 'player_update',
                         data:  player

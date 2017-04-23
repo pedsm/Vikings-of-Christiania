@@ -162,6 +162,8 @@ function draw(){
 		offsetX = (mouseX - width/2)*-((30*128*2)/width)
 		offsetY = (mouseY - height/2)*-((30*128*2)/height)
 		ratio /= 2
+		Player.x = 0
+		Player.y = 0
 	}
 	pop()
 	push()
@@ -197,9 +199,8 @@ function draw(){
 
 	// Remove dead boats
 	boats = boats.filter((b)=> {
-		return gameState.players.reduce((x,y)=>{return x.id==b.id || y.id },false);
+		return gameState.players.reduce((x,y)=>{return x.id || y.id==b.id },false);
 	})
-
 	//Print all boats
 	gameState.players.map((gs_player)=>{
 		// The current boat we are updating
