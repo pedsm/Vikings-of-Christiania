@@ -14,6 +14,7 @@ class Boat {
 	velY:number;
 	hp:number;
 	lastFrame:number;
+	score:number;
 	constructor(id: string, name:string,x:number,y:number){
 		this.id = id;
 		this.name = name
@@ -26,6 +27,7 @@ class Boat {
 		this.velY = 0
 		this.lastFrame = Date.now()
 		this.hp = 100;
+		this.score = 0;
 	}
 	updateCoords(){
 		var time_diff = Date.now() - this.lastFrame;
@@ -216,32 +218,55 @@ function draw(){
 		ellipse(0,0,100,100)
 		fill(50,0,0)
 		ellipse(0,0,5,5)
-		var relPlay = boats.map((boat:Boat)=>{
-			boat.x = (boat.x - Player.x)/35
-			boat.y = (boat.y - Player.y)/35
+		var maxScore:number
+		if(boats.length != 0 )
+		{
+			maxScore = boats.reduce((a:Boat,b:Boat)=>{
+				if(a.score > b.score)
+				{
+					return a.score
+				}else{
+					return b.score
+				}
+			})
+		}
+		var relPlay = boats.map((boat:Boat,i)=>{
+			var tmp = new Boat(boat.id, boat.name, boat.x,boat.y);
+			tmp.x = (boat.x - Player.x)/35
+			tmp.y = (boat.y - Player.y)/35
 			var v:any = createVector(boat.x,boat.y)
 			if(v.mag()>100)
 			{
 				v.normalize()
 				v.mult(100)
-				boat.x = v.x
-				boat.y = v.y
+				tmp.x = v.x
+				tmp.y = v.y
 			}
 			return boat
 		})
-		relPlay.map((boat:any)=>{
+		relPlay.map((boat:Boat)=>{
 			fill(100,0,0)
+			if(boat.score == maxScore)
+				fill(0,0,100)
 			ellipse(boat.x/2,boat.y/2,5,5)
 		})
+		pop()
+		push()
+		translate(width/2,height-20)
+		textFont(playerFont)
+		textAlign(CENTER)
+		textSize(32)
+		text(`Score:${Player.score}`,0,0)
 		pop()
 	}
 	// ellipse(70,70,100,100)
 
-
-	if(keyIsDown(LEFT_ARROW) || keyIsDown(65)) { Player.direction -= 0.04 }
-	if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ Player.direction += 0.04 }
+	var mult = 1
+	if(keyIsDown(16)){ mult = 2 }
+	if(keyIsDown(LEFT_ARROW) || keyIsDown(65)) { Player.direction -= 0.04*mult*mult }
+	if(keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ Player.direction += 0.04*mult*mult }
 	if(keyIsDown(UP_ARROW) || keyIsDown(87)) {
-		Player.speed = playerSpeed
+		Player.speed = playerSpeed / mult
 	}
 	else {
 		Player.speed = 0;
