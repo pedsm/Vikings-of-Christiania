@@ -7,7 +7,7 @@ import {Player, Projectile, Spectator, User} from './player';
 import {consts} from './consts';
 
 var verbose = false;
-var gameport = 4242;
+var gameport = process.env.PORT || 4242;
 var app = express();
 var server = http.createServer(app);
 let players: Array<Player> = [];
@@ -111,8 +111,6 @@ io.on('connection', function(socket) {
             console.log("Invalid player tried to update_gamestate")
             return;
         }
-
-        console.log(p);
 
         // Any of the attributes may be updated independently
         p.x = remotePlayer.x;
